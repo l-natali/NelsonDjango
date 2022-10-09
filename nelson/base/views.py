@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from .models import Category, Product, ProductPhoto
+from .models import Category, Product, ProductPhoto, Advantages, DiscountBanner, Furniture, HomeBanner, Review, Brands
+from .models import Contact
 
 menu = [{'title': 'Shop', 'url_name': 'shop'},
 
@@ -10,10 +11,26 @@ def base(request):
     categories = Category.objects.filter(is_visible=True)
     products = Product.objects.filter(is_visible=True)
     new_arrivals = Product.objects.filter(new_arrival=True)
+    advantages = Advantages.objects.all()
+    discount_banner = DiscountBanner.objects.all()
+    furniture = Furniture.objects.all()
+    home_banner = HomeBanner.objects.all()
+    product_photo = ProductPhoto.objects.filter(position=1)
+    review = Review.objects.all()
+    brands = Brands.objects.all()
+    contact = Contact.objects.all()
 
     data = {'categories': categories,
             'products': products,
-            'new_arrivals': new_arrivals, }
+            'new_arrivals': new_arrivals,
+            'advantages': advantages,
+            'discount_banner': discount_banner,
+            'furniture': furniture,
+            'home_banner': home_banner,
+            'product_photo': product_photo,
+            'review': review,
+            'brands': brands,
+            'contact': contact, }
 
     return render(request, 'index.html', context=data)
 

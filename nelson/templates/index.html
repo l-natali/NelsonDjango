@@ -362,7 +362,8 @@
             <div class="hero-slider section">
 
                 <!--Hero Item start-->
-                <div class="hero-item  bg-image" data-bg={% static "assets/images/hero/hero-1.jpg" %}>
+                {% for banner in home_banner %}
+                <div class="hero-item  bg-image" data-bg="{{ banner.photo.url }}">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
@@ -370,7 +371,7 @@
                                 <!--Hero Content start-->
                                 <div class="hero-content-2 center">
 
-                                    <h2>Creative Design <br> Modern & Exclusive Furniture</h2>
+                                    <h2>{{ banner.title }}</h2>
                                         <a href="{% url 'shop' %}" class="btn">SHOP NOW</a>
 
                                 </div>
@@ -380,6 +381,7 @@
                         </div>
                     </div>
                 </div>
+            {% endfor %}
                 <!--Hero Item end-->
 
                 <!--Hero Item start-->
@@ -413,36 +415,23 @@
         <div class="banner-section section pt-30">
             <div class="container">
                 <div class="row">
+                    {% for furn in furniture %}
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <!-- Single Banner Start -->
                         <div class="single-banner-item mb-30">
                             <div class="banner-image">
                                 <a href="{% url 'shop' %}">
-                                    <img src={% static "./assets/images/banner/banner1.jpg" %} alt="">
+                                    <img src="{{ furn.photo.url}}" alt="">
                                 </a>
                             </div>
                             <div class="banner-content">
-                                <h3 class="title">OFFICE <br> FURNITURE</h3>
+                                <h3 class="title">{{ furn.title}}</h3>
                                     <a href="{% url 'shop' %}">SHOP NOW</a>
                             </div>
                         </div>
                         <!-- Single Banner End -->
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <!-- Single Banner Start -->
-                        <div class="single-banner-item mb-30">
-                            <div class="banner-image">
-                                <a href="{% url 'shop' %}">
-                                    <img src={% static "./assets/images/banner/banner2.jpg" %} alt="">
-                                </a>
-                            </div>
-                            <div class="banner-content tr-right">
-                                <h3 class="title">HOME <br> FURNITURE</h3>
-                                    <a href="{% url 'shop' %}">SHOP NOW</a>
-                            </div>
-                        </div>
-                        <!-- Single Banner End -->
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -721,20 +710,22 @@
         <div class="banner-section section pb-40 pb-sm-30 pb-xs-0">
             <div class="container">
                 <div class="row">
+                    {% for disc in discount_banner %}
                     <div class="col-lg-12">
                         <!-- Single Banner Start -->
-                        <div class="single-banner-item pt-100 pt-md-80 pt-sm-70 pt-xs-50 pb-120 pb-md-100 pb-sm-90 pb-xs-50 mb-30 bg-image" data-bg={% static "./assets/images/banner/banner3.jpg" %}>
+                        <div class="single-banner-item pt-100 pt-md-80 pt-sm-70 pt-xs-50 pb-120 pb-md-100 pb-sm-90 pb-xs-50 mb-30 bg-image" data-bg="{{ disc.photo.url }}">
                             <div class="sp-banner-content">
-                                <span class="normat-text">DISCOUNTED UP TO 50%</span>
-                                <h2 class="title">Zigzag King Chair</h2>
+                                <span class="normat-text">DISCOUNTED UP TO {{ disc.discount }}%</span>
+                                <h2 class="title">{{ disc.title }}</h2>
                                 <span class="normat-text">LIMITED TIME OFEER</span>
                                 <div class="countdown-area">
-                                    <div class="product-countdown" data-countdown="2023/06/01"></div>
+                                    <div class="product-countdown" data-countdown="{{ disc.date }}"></div>
                                 </div>
                                 <a href="{% url 'shop' %}">SHOP NOW</a>
                             </div>
                         </div>
                         <!-- Single Banner End -->
+                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -748,47 +739,21 @@
         <div class="features-section section pt-30 pt-lg-15 pt-md-0 pt-sm-0 pt-xs-15">
             <div class="container">
                 <div class="row">
-
+                    {% for advantage in advantages %}
                     <div class="col-lg-4 col-md-6">
                         <!-- Single Feature Start -->
                         <div class="single-feature mb-30">
                             <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-1.png" %} class="img-fluid" alt="">
+                                <img src="{{ advantage.photo.url }}" class="img-fluid" alt="">
                             </div>
                             <div class="feature-content">
-                                <h4 class="title">Free home delivery</h4>
-                                <p class="short-desc">Provide free home delivery for the all product over $100 </p>
+                                <h4 class="title">{{ advantage.title }}</h4>
+                                <p class="short-desc">{{ advantage.description }}</p>
                             </div>
                         </div>
                         <!-- Single Feature End -->
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <!-- Single Feature Start -->
-                        <div class="single-feature mb-30">
-                            <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-2.png" %} class="img-fluid" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">Quality Products</h4>
-                                <p class="short-desc">We ensure the product quality that is our main goal </p>
-                            </div>
-                        </div>
-                        <!-- Single Feature End -->
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <!-- Single Feature Start -->
-                        <div class="single-feature mb-30">
-                            <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-3.png" %} class="img-fluid" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">3 Days Return</h4>
-                                <p class="short-desc">Provide free home delivery for the all product over $100 </p>
-                            </div>
-                        </div>
-                        <!-- Single Feature End -->
-                    </div>
-
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -876,11 +841,12 @@
                                 <div class="col-lg-12">
                                     <div class="testimonial-wrapper section-space--inner">
                                         <div class="testimonial-slider-content">
+                                            {% for rev in review %}
                                             <div class="item">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-5">
                                                         <div class="testimonial-image">
-                                                            <img src={% static "./assets/images/testimonial/testimonial-2.png" %} alt="">
+                                                            <img src="{{ rev.back_photo.url }}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-7">
@@ -888,16 +854,16 @@
                                                             <div class="testimonial-inner">
                                                                 <div class="testimonial-author">
                                                                     <div class="author-thumb">
-                                                                        <img src={% static "assets/images/author/author-1.png" %} alt="">
+                                                                        <img src="{{ rev.avatar.url }}" alt="">
                                                                     </div>
                                                                     <div class="author-info">
-                                                                        <h4>Zeniyea Henderson</h4>
-                                                                        <span>CTO & CO Founder, Axels</span>
+                                                                        <h4>{{ rev.name }}</h4>
+                                                                        <span>{{ rev.company }}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="testimonial-description">
                                                                     <blockquote class="testimonials-text">
-                                                                        <p>“I am very much happy to buy product from nelson, the provide the best quality of product. Product quality is very satisfactory. Also the creative design of their Furniture make me happy.”</p>
+                                                                        <p>{{ rev.review }}</p>
                                                                     </blockquote>
                                                                 </div>
                                                             </div>
@@ -905,34 +871,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="item">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-5">
-                                                        <div class="testimonial-image">
-                                                            <img src={% static "./assets/images/testimonial/testimonial-1.png" %} alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <div class="testimonial testimonial-style-2 gutter-item">
-                                                            <div class="testimonial-inner">
-                                                                <div class="testimonial-author">
-                                                                    <div class="author-thumb">
-                                                                        <img src={% static "assets/images/author/author-1.png" %} alt="">
-                                                                    </div>
-                                                                    <div class="author-info">
-                                                                        <h4>Zeniyea Henderson</h4>
-                                                                        <span>CTO & CO Founder, Axels</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="testimonial-description">
-                                                                    <blockquote class="testimonials-text">
-                                                                        <p>“I am very much happy to buy product from nelson, the provide the best quality of product. Product quality is very satisfactory. Also the creative design of their Furniture make me happy.”</p>
-                                                                    </blockquote>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -952,96 +891,17 @@
             <div class="container">
                 <div class="row">
                     <div class="brand-slider section">
+                        {% for brand in brands %}
                         <div class="col">
                             <!-- Single Brand Start -->
                             <div class="single-brand">
                                 <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-1.png" %} alt="">
+                                    <img src="{{ brand.logo.url }}" alt="">
                                 </div>
                             </div>
                             <!-- Single Brand End -->
                         </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-2.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-3.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-4.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-5.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-1.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-2.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-3.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src={% static "./assets/images/brands/brand-4.png" %} alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
-                        <div class="col">
-                            <!-- Single Brand Start -->
-                            <div class="single-brand">
-                                <div class="brand-image">
-                                    <img src="./assets/images/brands/brand-5.png" alt="">
-                                </div>
-                            </div>
-                            <!-- Single Brand End -->
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -1127,9 +987,11 @@
 
                         <!--Footer Widget start-->
                         <div class="footer-widget text-lg-right text-left col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h2>123 Widget Street Acmeville, AC-1209</h2>
-                            <p class="contact-text">hello@hasthemes.com</p>
-                            <p class="contact-text">+0123456789</p>
+                            {% for contact in contact %}
+                            <h2>{{ contact.address }}</h2>
+                            <p class="contact-text">{{ contact.email }}</p>
+                            <p class="contact-text">{{ contact.phone }}</p>
+                            {% endfor %}
                         </div>
                         <!--Footer Widget end-->
                     </div>

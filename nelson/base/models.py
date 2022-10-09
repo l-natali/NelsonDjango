@@ -45,6 +45,7 @@ class ProductPhoto(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=get_file_name)
+    position = models.SmallIntegerField(default=1)
 
     def __str__(self):
         return f'{self.product}'
@@ -61,3 +62,105 @@ class HomeBanner(models.Model):
     photo = models.ImageField(upload_to=get_file_name)
     position = models.SmallIntegerField(unique=True)
 
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        ordering = ('position', )
+
+
+class Furniture(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('photo/', new_filename)
+
+    title = models.CharField(unique=True, max_length=100, db_index=True)
+    photo = models.ImageField(upload_to=get_file_name)
+    position = models.SmallIntegerField(unique=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        ordering = ('position', )
+
+
+class DiscountBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('discban/', new_filename)
+
+    title = models.CharField(unique=True, max_length=100, db_index=True)
+    photo = models.ImageField(upload_to=get_file_name)
+    discount = models.SmallIntegerField(max_length=2, blank=True)
+    date = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.title}, {self.date}'
+
+    class Meta:
+        ordering = ('date', )
+
+
+class Advantages(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('advant/', new_filename)
+
+    title = models.CharField(unique=True, max_length=50, db_index=True)
+    description = models.CharField(unique=True, max_length=200, db_index=True)
+    photo = models.ImageField(upload_to=get_file_name)
+    position = models.SmallIntegerField(unique=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        ordering = ('position', )
+
+
+class Review(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('review/', new_filename)
+
+    name = models.CharField(unique=True, max_length=50)
+    company = models.CharField(max_length=50)
+    avatar = models.ImageField(upload_to=get_file_name)
+    back_photo = models.ImageField(upload_to=get_file_name)
+    review = models.CharField(max_length=500)
+
+    def __str__(self):
+        return f'{self.name}, {self.company}'
+
+
+class Brands(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('brands/', new_filename)
+
+    company = models.CharField(unique=True, max_length=50)
+    logo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.company}'
+
+
+class Contact(models.Model):
+
+    address = models.CharField(max_length=100)
+    email = models.CharField(max_length=50, default='info@nelson.com.ua')
+    phone = models.CharField(max_length=12)
+
+    def __str__(self):
+        return f'{self.address}, {self.email}, {self.phone}'
