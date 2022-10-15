@@ -425,7 +425,7 @@
                                 </a>
                             </div>
                             <div class="banner-content">
-                                <h3 class="title">{{ furn.title}}</h3>
+                                <h3 class="title">{{ furn.title | upper }}</h3>
                                     <a href="{% url 'shop' %}">SHOP NOW</a>
                             </div>
                         </div>
@@ -921,8 +921,10 @@
                     <div class="col-lg-6">
                         <div class="newsletter-wrap">
                             <div class="newsletter-form">
-                                <form id="mc-form" class="mc-form">
-                                    <input type="email" placeholder="Enter Your Email Address Here..." required>
+                                <form action="" id="mc-form" method="post" class="mc-form">
+                                    {% csrf_token %}
+                                    {{ subscribe_form.email }}
+<!--                                    <input type="email" placeholder="Enter Your Email Address Here..." required>-->
                                     <button type="submit" value="submit">SUBSCRIBE!</button>
                                 </form>
 

@@ -1,13 +1,20 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Category, Product, ProductPhoto, Advantages, DiscountBanner, Furniture, HomeBanner, Review, Brands
 from .models import Contact
+from .forms import SubscribeForm
 
-menu = [{'title': 'Shop', 'url_name': 'shop'},
-
-        ]
+# menu = [{'title': 'Shop', 'url_name': 'shop'},
+#
+#         ]
 
 
 def base(request):
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
+
     categories = Category.objects.filter(is_visible=True)
     products = Product.objects.filter(is_visible=True)
     new_arrivals = Product.objects.filter(new_arrival=True)
@@ -15,10 +22,11 @@ def base(request):
     discount_banner = DiscountBanner.objects.all()
     furniture = Furniture.objects.all()
     home_banner = HomeBanner.objects.all()
-    product_photo = ProductPhoto.objects.filter(position=1)
+    product_photo = ProductPhoto.objects.all()
     review = Review.objects.all()
     brands = Brands.objects.all()
     contact = Contact.objects.all()
+    subscribe = SubscribeForm()
 
     data = {'categories': categories,
             'products': products,
@@ -30,7 +38,8 @@ def base(request):
             'product_photo': product_photo,
             'review': review,
             'brands': brands,
-            'contact': contact, }
+            'contact': contact,
+            'subscribe_form': subscribe}
 
     return render(request, 'index.html', context=data)
 
@@ -94,4 +103,4 @@ def blog_details(request):
 
 
 def contact(request):
-    return HttpResponse('Hello from contact page')
+    return render(request, 'contact.html')

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 import uuid
 import os.path
 
@@ -164,3 +165,17 @@ class Contact(models.Model):
 
     def __str__(self):
         return f'{self.address}, {self.email}, {self.phone}'
+
+
+class Subscribe(models.Model):
+
+    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-.]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
+    email = models.CharField(max_length=50, validators=[email_re])
+    date = models.DateTimeField(auto_now_add=True)
+    is_processed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('-date', '-is_processed')
+
+    def __str__(self):
+        return f'{self.email}'
