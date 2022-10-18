@@ -489,7 +489,7 @@
                                                         <div class="product-grid-view">
                                                             <div class="row">
 
-                                                                {% for product in products %}
+                                                                {% for product in products%}
 
                                                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                                                     <!--  Single Grid product Start -->
@@ -498,10 +498,12 @@
                                                                             <div class="product-label">
                                                                                 <span>{{ product.sale }}%</span>
                                                                             </div>
+                                                                            {% for img in photo %}
                                                                             <a href="{% url 'product-details' %}">
-                                                                                <img src={% static "./assets/images/product/product-2.jpg" %} class="img-fluid" alt="">
-                                                                                <img src={% static "./assets/images/product/product-3.jpg" %} class="img-fluid" alt="">
+                                                                                <img src="{{ img.photo.url }}" class="img-fluid" alt="">
+                                                                                <img src="{{ img.photo.url }}" class="img-fluid" alt="">
                                                                             </a>
+                                                                            {% endfor %}
 
                                                                             <div class="product-action">
                                                                                 <ul>

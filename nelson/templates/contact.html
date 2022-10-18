@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -8,15 +10,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
-    <link href="assets/images/favicon.ico" type="img/x-icon" rel="shortcut icon">
+    <link href={% static "assets/images/favicon.ico" %} type="img/x-icon" rel="shortcut icon">
     <!-- All css files are included here. -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/iconfont.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/helper.css">
-    <link rel="stylesheet" href="assets/css/plugins/plugins.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href={% static "assets/css/vendor/bootstrap.min.css" %}>
+    <link rel="stylesheet" href={% static "assets/css/vendor/iconfont.min.css" %}>
+    <link rel="stylesheet" href={% static "assets/css/vendor/helper.css" %}>
+    <link rel="stylesheet" href={% static "assets/css/plugins/plugins.css" %}>
+    <link rel="stylesheet" href={% static "assets/css/style.css" %}>
     <!-- Modernizr JS -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src={% static "assets/js/vendor/modernizr-2.8.3.min.js" %}></script>
 </head>
 
 <body>
@@ -31,7 +33,7 @@
                         <div class="col-xl-3 col-lg-2 col-md-4 col-12">
                             <!--Logo Area Start-->
                             <div class="logo-area">
-                                <a href="{% url 'home' %}"><img src="./assets/images/logo.png" alt=""></a>
+                                <a href="{% url 'home' %}"><img src={% static "./assets/images/logo.png" %} alt=""></a>
                             </div>
                             <!--Logo Area End-->
                         </div>
@@ -92,8 +94,8 @@
                                             <!--Language Currency Start-->
                                             <li><a href="#">language</a>
                                                 <ul>
-                                                    <li class="active"><a href="#"><img src="./assets/images/icons/en-gb.png" alt="">English</a></li>
-                                                    <li><a href="#"><img src="./assets/images/icons/de-de.png" alt="">French</a></li>
+                                                    <li class="active"><a href="#"><img src={% static "./assets/images/icons/en-gb.png" %} alt="">English</a></li>
+                                                    <li><a href="#"><img src={% static "./assets/images/icons/de-de.png" %} alt="">French</a></li>
                                                 </ul>
                                             </li>
                                             <!--Language Currency End-->
@@ -125,7 +127,7 @@
                                             <ul class="cart-items">
                                                 <li class="single-cart-item">
                                                     <div class="cart-img">
-                                                        <a href="{% url 'cart' %}"><img src="./assets/images/cart/cart1.jpg" alt=""></a>
+                                                        <a href="{% url 'cart' %}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
                                                     </div>
                                                     <div class="cart-content">
                                                         <h5 class="product-name"><a href="{% url 'product-details' %}">Dell Inspiron 24</a></h5>
@@ -138,7 +140,7 @@
                                                 </li>
                                                 <li class="single-cart-item">
                                                     <div class="cart-img">
-                                                        <a href="{% url 'cart' %}"><img src="./assets/images/cart/cart2.jpg" alt=""></a>
+                                                        <a href="{% url 'cart' %}"><img src={% static "./assets/images/cart/cart2.jpg" %} alt=""></a>
                                                     </div>
                                                     <div class="cart-content">
                                                         <h5 class="product-name"><a href="{% url 'product-details' %}">Lenovo Ideacentre 300</a></h5>
@@ -184,7 +186,7 @@
                                     <div class="col-6 col-md-6">
                                         <div class="header-logo">
                                             <a href="{% url 'home' %}">
-                                                <img src="./assets/images/logo.png" class="img-fluid" alt="">
+                                                <img src={% static "./assets/images/logo.png" %} class="img-fluid" alt="">
                                             </a>
                                         </div>
                                     </div>
@@ -301,8 +303,8 @@
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">LANGUAGE: EN-GB </a>
                                     <ul class="submenu2">
-                                        <li><a href="javascript:void(0)"><img src="./assets/images/icons/en-gb.png" alt=""> English</a></li>
-                                        <li><a href="javascript:void(0)"><img src="./assets/images/icons/de-de.png" alt=""> Germany</a></li>
+                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/en-gb.png" %} alt=""> English</a></li>
+                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/de-de.png" %} alt=""> Germany</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -355,7 +357,7 @@
 
 
         <!-- Page Banner Section Start -->
-        <div class="page-banner-section section bg-image" data-bg="assets/images/bg/breadcrumb.png">
+        <div class="page-banner-section section bg-image" data-bg={% static "assets/images/bg/breadcrumb.png" %}>
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -381,7 +383,8 @@
                     <div class="col-12">
                         <div class="contact-form-wrap">
                             <h3 class="contact-title">Write Us</h3>
-                            <form id="contact-form" action="assets/php/mail.php" method="post">
+                            <form id="contact-form" action="" method="post">
+                                {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="name-fild-padding mb-sm-30 mb-xs-30">
@@ -389,18 +392,21 @@
                                                 <div class="col-md-12">
                                                     <div class="contact-form-style mb-20">
                                                         <label class="fild-name">Name</label>
-                                                        <input name="name" placeholder="" type="text">
+                                                        {{ write_us_from.name }}
+<!--                                                        <input name="name" placeholder="" type="text">-->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="contact-form-style mb-20">
                                                         <label class="fild-name">Email</label>
-                                                        <input name="email" placeholder="" type="email">
+                                                        {{ write_us_from.email }}
+<!--                                                        <input name="email" placeholder="" type="email">-->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="check-box">
-                                                        <input type="checkbox" id="create_account">
+<!--                                                        <input type="checkbox" id="create_account">-->
+                                                        {{ write_us_from.notabot }}
                                                         <label for="create_account">I am not a robot</label>
                                                     </div>
                                                 </div>
@@ -410,7 +416,8 @@
                                     <div class="col-lg-7">
                                         <div class="contact-form-style bl">
                                             <label class="fild-name pl-15">Message</label>
-                                            <textarea class="pl-15" name="message" placeholder="Type your message here.."></textarea>
+                                            {{ write_us_from.message }}
+<!--                                            <textarea class="pl-15" name="message" placeholder="Type your message here.."></textarea>-->
                                             <button class="btn" type="submit"><span>Send message</span></button>
                                         </div>
                                     </div>
@@ -531,7 +538,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="payment-getway text-lg-right text-center">
-                                        <img src="./assets/images/payment.png" alt="">
+                                        <img src={% static "./assets/images/payment.png" %} alt="">
                                     </div>
                                 </div>
                             </div>
@@ -560,32 +567,32 @@
                                     <div class="product-details-left">
                                         <div class="product-details-images">
                                             <div class="lg-image">
-                                                <img src="./assets/images/product/large-product/l-product-1.jpg" alt="">
-                                                <a href="./assets/images/product/large-product/l-product-1.jpg" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src={% static "./assets/images/product/large-product/l-product-1.jpg" %} alt="">
+                                                <a href={% static "./assets/images/product/large-product/l-product-1.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                             <div class="lg-image">
-                                                <img src="./assets/images/product/large-product/l-product-2.jpg" alt="">
-                                                <a href="./assets/images/product/large-product/l-product-2.jpg" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src={% static "./assets/images/product/large-product/l-product-2.jpg" %} alt="">
+                                                <a href={% static "./assets/images/product/large-product/l-product-2.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                             <div class="lg-image">
-                                                <img src="./assets/images/product/large-product/l-product-3.jpg" alt="">
-                                                <a href="./assets/images/product/large-product/l-product-3.jpg" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src={% static "./assets/images/product/large-product/l-product-3.jpg" %} alt="">
+                                                <a href={% static "./assets/images/product/large-product/l-product-3.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                             <div class="lg-image">
-                                                <img src="./assets/images/product/large-product/l-product-4.jpg" alt="">
-                                                <a href="./assets/images/product/large-product/l-product-4.jpg" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src={% static "./assets/images/product/large-product/l-product-4.jpg" %} alt="">
+                                                <a href={% static "./assets/images/product/large-product/l-product-4.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                             <div class="lg-image">
-                                                <img src="./assets/images/product/large-product/l-product-5.jpg" alt="">
-                                                <a href="./assets/images/product/large-product/l-product-5.jpg" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src={% static "./assets/images/product/large-product/l-product-5.jpg" %} alt="">
+                                                <a href={% static "./assets/images/product/large-product/l-product-5.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-details-thumbs">
-                                            <div class="sm-image"><img src="./assets/images/product/small-product/s-product-1.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="./assets/images/product/small-product/s-product-2.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="./assets/images/product/small-product/s-product-3.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="./assets/images/product/small-product/s-product-4.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="./assets/images/product/small-product/s-product-5.jpg" alt="product image thumb"></div>
+                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-1.jpg" %} alt="product image thumb"></div>
+                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-2.jpg" %} alt="product image thumb"></div>
+                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-3.jpg" %} alt="product image thumb"></div>
+                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-4.jpg" %} alt="product image thumb"></div>
+                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-5.jpg" %} alt="product image thumb"></div>
                                         </div>
                                     </div>
                                     <!--Product Details Left -->
@@ -663,12 +670,12 @@
     <!-- Placed js at the end of the document so the pages load faster -->
 
     <!-- All jquery file included here -->
-    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src={% static "assets/js/vendor/jquery-1.12.4.min.js" %}></script>
     <script src="https://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.22&key=AIzaSyDAq7MrCR1A2qIShmjbtLHSKjcEIEBEEwM"></script>
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/plugins/plugins.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src={% static "assets/js/vendor/popper.min.js" %}></script>
+    <script src={% static "assets/js/vendor/bootstrap.min.js" %}></script>
+    <script src={% static "assets/js/plugins/plugins.js" %}></script>
+    <script src={% static "assets/js/main.js" %}></script>
 
 </body>
 

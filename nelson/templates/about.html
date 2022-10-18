@@ -357,7 +357,8 @@
 
 
         <!-- Page Banner Section Start -->
-        <div class="page-banner-section section bg-image" data-bg={% static "assets/images/bg/breadcrumb.png" %}>
+        {% for ban in about_banner %}
+        <div class="page-banner-section section bg-image" data-bg="{{ ban.photo.url }}">
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -366,7 +367,7 @@
                             <h2>About</h2>
                             <ul class="page-breadcrumb">
                                 <li><a href="{% url 'home' %}">Home</a></li>
-                                <li>About</li>
+                                <li>{{ ban.title }}</li>
                             </ul>
                         </div>
 
@@ -374,6 +375,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
         <!-- Page Banner Section End -->
         <!--About Us Area Start-->
         <div class="about-us-area section pt-90 pt-lg-70 pt-md-60 pt-sm-50 pt-xs-45 pb-70 pb-lg-50 pb-md-60 pb-sm-60 pb-xs-50">
@@ -381,21 +383,24 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-12">
                         <!--About Us Image Start-->
+                        {% for img in about %}
                         <div class="about-us-img-wrapper mb-30 mb-xs-15">
                             <div class="about-us-image img-full">
-                                <a href="#"><img src={% static "./assets/images/blog/blog-6.jpg" %} alt=""></a>
+                                <a href="#"><img src="{{ img.photo.url }}" alt=""></a>
                             </div>
                         </div>
+                        {% endfor %}
                         <!--About Us Image End-->
                     </div>
                     <div class="col-lg-6 col-12">
                         <!--About Us Content Start-->
+                        {% for ab in about %}
                         <div class="about-us-content pl-30 pl-md-0 pl-sm-0 pl-xs-0">
                             <span>Since 2019</span>
-                            <h2>Provide Best Quality Furnitures for Our Cleint</h2>
-                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam ?</p>
-                            <p>consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam</p>
+                            <h2>{{ ab.title }}</h2>
+                            <p>{{ ab.description }}</p>
                         </div>
+                        {% endfor %}
                         <!--About Us Content End-->
                     </div>
                 </div>
@@ -410,17 +415,19 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- Single Banner Start -->
-                        <div class="single-banner-item pt-100 pt-md-80 pt-sm-70 pt-xs-50 pb-120 pb-md-100 pb-sm-90 pb-xs-50 mb-30 bg-image" data-bg={% static "./assets/images/banner/banner3.jpg" %}>
+                        {% for ban in discount_banner %}
+                        <div class="single-banner-item pt-100 pt-md-80 pt-sm-70 pt-xs-50 pb-120 pb-md-100 pb-sm-90 pb-xs-50 mb-30 bg-image" data-bg="{{ ban.photo.url }}">
                             <div class="sp-banner-content">
                                 <span class="normat-text">DISCOUNTED UP TO 50%</span>
-                                <h2 class="title">Zigzag King Chair</h2>
+                                <h2 class="title">{{ ban.title }}</h2>
                                 <span class="normat-text">LIMITED TIME OFEER</span>
                                 <div class="countdown-area">
-                                    <div class="product-countdown" data-countdown="2019/06/01"></div>
+                                    <div class="product-countdown" data-countdown="{{ ban.date }}"></div>
                                 </div>
                                 <a href="{% url 'shop' %}l">SHOP NOW</a>
                             </div>
                         </div>
+                    {% endfor %}
                         <!-- Single Banner End -->
                     </div>
                 </div>
@@ -435,46 +442,21 @@
         <div class="features-section section pt-30 pt-lg-15 pt-md-0 pt-sm-0 pt-xs-15">
             <div class="container">
                 <div class="row">
-
+                    {% for adv in advantages %}
                     <div class="col-lg-4 col-md-6">
                         <!-- Single Feature Start -->
                         <div class="single-feature mb-30">
                             <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-1.png" %} class="img-fluid" alt="">
+                                <img src="{{ adv.photo.url }}" class="img-fluid" alt="">
                             </div>
                             <div class="feature-content">
-                                <h4 class="title">Free home delivery</h4>
-                                <p class="short-desc">Provide free home delivery for the all product over $100 </p>
+                                <h4 class="title">{{ adv.title }}</h4>
+                                <p class="short-desc">{{ adv.description }}</p>
                             </div>
                         </div>
                         <!-- Single Feature End -->
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <!-- Single Feature Start -->
-                        <div class="single-feature mb-30">
-                            <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-2.png" %} class="img-fluid" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">Quality Products</h4>
-                                <p class="short-desc">We ensure the product quality that is our main goal </p>
-                            </div>
-                        </div>
-                        <!-- Single Feature End -->
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <!-- Single Feature Start -->
-                        <div class="single-feature mb-30">
-                            <div class="feature-image">
-                                <img src={% static "./assets/images/icons/feature-3.png" %} class="img-fluid" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="title">3 Days Return</h4>
-                                <p class="short-desc">Provide free home delivery for the all product over $100 </p>
-                            </div>
-                        </div>
-                        <!-- Single Feature End -->
-                    </div>
+                    {% endfor %}
 
                 </div>
             </div>

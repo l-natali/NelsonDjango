@@ -179,3 +179,98 @@ class Subscribe(models.Model):
 
     def __str__(self):
         return f'{self.email}'
+
+
+class WriteUs(models.Model):
+
+    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
+    email = models.CharField(max_length=50, validators=[email_re])
+    name = models.CharField(max_length=50)
+    message = models.CharField(max_length=500)
+    notabot = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+    is_processed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('-date', '-is_processed')
+
+    def __str__(self):
+        return f'{self.name, self.message[:50]}'
+
+
+class Blog(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('blog/', new_filename)
+
+    title = models.CharField(max_length=100, db_index=True)
+    photo = models.ImageField(upload_to=get_file_name)
+    data = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        ordering = ('-data', )
+
+
+class BlogBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('blog_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class AboutBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('about_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class About(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('about/', new_filename)
+
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class Team(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('team/', new_filename)
+
+    name = models.CharField(max_length=50, db_index=True)
+    photo = models.ImageField(upload_to=get_file_name)
+    twitter = models.CharField
+    instagram = models.CharField
+    facebook = models.CharField
+
+    def __str__(self):
+        return f'{self.name}'
