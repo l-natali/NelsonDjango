@@ -1,14 +1,12 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Category, Product, ProductPhoto, Advantages, DiscountBanner, Furniture, HomeBanner, Review, Brands
-from .models import Contact, Blog, BlogBanner, AboutBanner, About, Team
+from .models import Contact, Blog, BlogBanner, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner, ContactBanner
 from .forms import SubscribeForm, WriteUsForm
-
-# menu = [{'title': 'Shop', 'url_name': 'shop'},
-#
-#         ]
+from cart.cart import Cart
 
 
 def base(request):
+
     if request.method == 'POST':
         subscribe = SubscribeForm(request.POST)
         if subscribe.is_valid():
@@ -48,20 +46,46 @@ def base(request):
 
 
 def shop(request):
+
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
+
     categories = Category.objects.filter(is_visible=True)
     products = Product.objects.filter(is_visible=True)
     new_arrivals = Product.objects.filter(new_arrival=True)
     img = ProductPhoto.objects.filter(position=1)
+    shop_banner = ShopBanner.objects.all()
+    subscribe = SubscribeForm()
+    cart = Cart(request)
 
     data = {'categories': categories,
             'products': products,
             'new_arrivals': new_arrivals,
-            'photo': img, }
+            'photo': img,
+            'shop_banner': shop_banner,
+            'subscribe_form': subscribe,
+            }
 
     return render(request, 'shop.html', context=data)
 
 
+def product_details(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+    return render(request,
+                  'single-product.html',
+                  {'product': product})
+
+
 def about(request):
+
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
 
     about_banner = AboutBanner.objects.all()
     about = About.objects.all()
@@ -69,6 +93,7 @@ def about(request):
     discount_banner = DiscountBanner.objects.all()
     advantages = Advantages.objects.all()
     review = Review.objects.all()
+    subscribe = SubscribeForm()
 
     data = {
         'about_banner': about_banner,
@@ -77,21 +102,35 @@ def about(request):
         'discount_banner': discount_banner,
         'advantages': advantages,
         'review': review,
+        'subscribe_form': subscribe,
     }
 
     return render(request, 'about.html', context=data)
 
 
 def faq(request):
-    return HttpResponse('Hello from faq page')
+
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
+
+    faq = Faq.objects.all()
+    faq_banner = FaqBanner.objects.all()
+    subscribe = SubscribeForm()
+
+    data = {
+        'faq': faq,
+        'faq_banner': faq_banner,
+        'subscribe_form': subscribe,
+    }
+
+    return render(request, 'faq.html', context=data)
 
 
 def compare(request):
     return HttpResponse('Hello from compare page')
-
-
-def product_details(request):
-    return HttpResponse('Hello from product_details page')
 
 
 def cart(request):
@@ -107,21 +146,29 @@ def wishlist(request):
 
 
 def my_account(request):
-    return HttpResponse('Hello from my-account page')
+    return render(request, 'my-account.html')
 
 
 def login(request):
-    return HttpResponse('Hello from login-register page')
+    return render(request, 'login-register.html')
 
 
 def blog(request):
 
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
+
     blog_post = Blog.objects.all()
     blog_banner = BlogBanner.objects.all()
+    subscribe = SubscribeForm()
 
     data = {
         'blog_post': blog_post,
-        'blog_banner': blog_banner
+        'blog_banner': blog_banner,
+        'subscribe_form': subscribe,
     }
 
     return render(request, 'blog.html', context=data)
@@ -140,8 +187,9 @@ def contact(request):
             return redirect('/')
 
     write_us = WriteUsForm()
+    contact_banner = ContactBanner.objects.all()
 
     data = {'write_us_from': write_us,
-
-    }
+            'contact_banner': contact_banner,
+            }
     return render(request, 'contact.html', context=data)

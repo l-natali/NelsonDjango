@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 import uuid
 import os.path
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -35,6 +36,9 @@ class Product(models.Model):
 
     class Meta:
         index_together = (('id', 'slug'), )
+
+    def get_absolute_url(self):
+        return reverse("shop:products", args=[self.id, self.slug])
 
 
 class ProductPhoto(models.Model):
@@ -169,7 +173,7 @@ class Contact(models.Model):
 
 class Subscribe(models.Model):
 
-    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-.]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
+    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
     email = models.CharField(max_length=50, validators=[email_re])
     date = models.DateTimeField(auto_now_add=True)
     is_processed = models.BooleanField(default=False)
@@ -268,9 +272,60 @@ class Team(models.Model):
 
     name = models.CharField(max_length=50, db_index=True)
     photo = models.ImageField(upload_to=get_file_name)
-    twitter = models.CharField
-    instagram = models.CharField
-    facebook = models.CharField
+    twitter = models.CharField(max_length=100, default='http://')
+    instagram = models.CharField(max_length=100, default='http://')
+    facebook = models.CharField(max_length=100, default='http://')
 
     def __str__(self):
         return f'{self.name}'
+
+
+class FaqBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('faq_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class Faq(models.Model):
+
+    question = models.CharField(max_length=100)
+    answer = models.CharField(max_length=500)
+
+    def __str__(self):
+        return f'{self.question}'
+
+
+class ContactBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('contact_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class ShopBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('shop_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'

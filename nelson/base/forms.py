@@ -58,7 +58,6 @@ class WriteUsForm(forms.ModelForm):
         })
     )
 
-
     class Meta:
         model = WriteUs
         fields = ('name', 'email', 'notabot', 'message', )

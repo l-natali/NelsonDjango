@@ -44,7 +44,7 @@
                                     <ul>
                                         <li><a href="{% url 'home' %}">Home</a>
                                         </li>
-                                        <li><a href="{% url 'shop' %}">Shop</a>
+                                        <li><a href="{% url 'shop:shop' %}">Shop</a>
                                             <ul class="mega-menu four-column left-0">
                                                 <li><a href="{% url 'about' %}" class="item-link">About us</a>
                                                     <ul>
@@ -52,11 +52,10 @@
                                                         <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="{% url 'shop' %}" class="item-link">Shop</a>
+                                                <li><a href="{% url 'shop:shop' %}" class="item-link">Shop</a>
                                                     <ul>
-                                                        <li><a href="{% url 'shop' %}">Shop</a></li>
+                                                        <li><a href="{% url 'shop:shop' %}">Shop</a></li>
                                                         <li><a href="{% url 'compare' %}">Compare</a></li>
-                                                        <li><a href="{% url 'product-details' %}">Product Details</a></li>
                                                         <li><a href="{% url 'cart' %}">Shopping Cart</a></li>
                                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                                         <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
@@ -70,7 +69,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li><a href="{% url 'shop' %}">New Arrivals</a></li>
+                                        <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
                                         <li><a href="{% url 'blog' %}">Blog</a>
                                             <ul class="sub-menu">
                                                 <li><a href="{% url 'blog' %}">Blog</a></li>
@@ -130,7 +129,7 @@
                                                         <a href="{% url 'cart' %}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
                                                     </div>
                                                     <div class="cart-content">
-                                                        <h5 class="product-name"><a href="{% url 'product-details' %}">Dell Inspiron 24</a></h5>
+                                                        <h5 class="product-name"><a href="#">Dell Inspiron 24</a></h5>
                                                         <span class="product-quantity">1 ×</span>
                                                         <span class="product-price">$278.00</span>
                                                     </div>
@@ -143,7 +142,7 @@
                                                         <a href="{% url 'cart' %}"><img src={% static "./assets/images/cart/cart2.jpg" %} alt=""></a>
                                                     </div>
                                                     <div class="cart-content">
-                                                        <h5 class="product-name"><a href="{% url 'product-details' %}">Lenovo Ideacentre 300</a></h5>
+                                                        <h5 class="product-name"><a href="#">Lenovo Ideacentre 300</a></h5>
                                                         <span class="product-quantity">1 ×</span>
                                                         <span class="product-price">$23.39</span>
                                                     </div>
@@ -243,7 +242,7 @@
                         <ul>
                             <li class="menu-item-has-children"><a href="{% url 'home' %}">Home</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'shop' %}">Shop</a>
+                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
                                 <ul class="submenu2">
                                     <li class="menu-item-has-children"><a href="{% url 'about' %}">About us</a>
                                         <ul class="submenu2">
@@ -251,11 +250,11 @@
                                             <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'shop' %}">Shop</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'shop' %}">Shop</a></li>
+                                            <li><a href="{% url 'shop:shop' %}">Shop</a></li>
                                             <li><a href="{% url 'compare' %}">Compare</a></li>
-                                            <li><a href="{% url 'product-details' %}">Product Details</a></li>
+                                            <li><a href="#">Product Details</a></li>
                                             <li><a href="{% url 'cart' %}">Shopping Cart</a></li>
                                             <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                             <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
@@ -270,7 +269,7 @@
 
                                 </ul>
                             </li>
-                            <li><a href="{% url 'shop' %}">New Arrivals</a></li>
+                            <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
                             <li class="menu-item-has-children"><a href="{% url 'blog' %}">Blog</a>
                                 <ul class="submenu2">
                                     <li><a href="{% url 'blog' %}">Blog</a></li>
@@ -357,16 +356,16 @@
 
 
         <!-- Page Banner Section Start -->
-        <div class="page-banner-section section bg-image" data-bg={% static "assets/images/bg/breadcrumb.png" %}>
+        {% for ban in shop_banner %}
+        <div class="page-banner-section section bg-image" data-bg="{{ ban.photo.url }}">
             <div class="container">
                 <div class="row">
                     <div class="col">
-
                         <div class="page-banner text-left">
                             <h2>Shop</h2>
                             <ul class="page-breadcrumb">
                                 <li><a href="{% url 'home' %}">Home</a></li>
-                                <li>Shop</li>
+                                <li>{{ ban.title }}</li>
                             </ul>
                         </div>
 
@@ -374,6 +373,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
         <!-- Page Banner Section End -->
         <!-- Shop Section Start -->
         <div class="shop-section section pt-60 pt-lg-40 pt-md-30 pt-sm-20 pt-xs-30  pb-70 pb-lg-50 pb-md-40 pb-sm-60 pb-xs-50">
@@ -489,7 +489,7 @@
                                                         <div class="product-grid-view">
                                                             <div class="row">
 
-                                                                {% for product in products%}
+                                                                {% for product in products %}
 
                                                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                                                     <!--  Single Grid product Start -->
@@ -499,7 +499,7 @@
                                                                                 <span>{{ product.sale }}%</span>
                                                                             </div>
                                                                             {% for img in photo %}
-                                                                            <a href="{% url 'product-details' %}">
+                                                                            <a href="{{ product.get_absolute_url }}">
                                                                                 <img src="{{ img.photo.url }}" class="img-fluid" alt="">
                                                                                 <img src="{{ img.photo.url }}" class="img-fluid" alt="">
                                                                             </a>
@@ -514,7 +514,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="product-content">
-                                                                            <h3 class="title"> <a href="{% url 'product-details' %}">{{ product.title }}</a></h3>
+                                                                            <h3 class="title"> <a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
                                                                             <p class="product-price"><span class="discounted-price">{{ product.price }} грн</span> <span class="main-price discounted">$180.00</span></p>
                                                                         </div>
                                                                     </div>
@@ -537,7 +537,7 @@
                                                                                 <div class="product-label">
                                                                                     <span class="sale">New</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-3.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-4.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -555,7 +555,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Miro Dining Table</a></h3>
+                                                                                <h3 class="title"> <a href="#">Miro Dining Table</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -583,7 +583,7 @@
                                                                                 <div class="product-label">
                                                                                     <span class="sale">New</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-1.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-2.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -601,7 +601,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Stylish Design Chair</a></h3>
+                                                                                <h3 class="title"> <a href="#">Stylish Design Chair</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -629,7 +629,7 @@
                                                                                 <div class="product-label">
                                                                                     <span class="sale">New</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-3.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-4.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -647,7 +647,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Janus Table Lamp</a></h3>
+                                                                                <h3 class="title"> <a href="#">Janus Table Lamp</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -675,7 +675,7 @@
                                                                                 <div class="product-label">
                                                                                     <span class="sale">New</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-5.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-6.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -693,7 +693,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Normal Dining chair</a></h3>
+                                                                                <h3 class="title"> <a href="#">Normal Dining chair</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -721,7 +721,7 @@
                                                                                 <div class="product-label">
                                                                                     <span class="sale">Sale</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-7.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-8.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -739,7 +739,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Affordances Side Table</a></h3>
+                                                                                <h3 class="title"> <a href="#">Affordances Side Table</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -767,7 +767,7 @@
                                                                                 <div class="product-label">
                                                                                     <span>-20%</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-10.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-11.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -785,7 +785,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Hot Design Table</a></h3>
+                                                                                <h3 class="title"> <a href="#">Hot Design Table</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -813,7 +813,7 @@
                                                                                 <div class="product-label">
                                                                                     <span>-29%</span>
                                                                                 </div>
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-12.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-13.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -831,7 +831,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Outdoor Lock Chair</a></h3>
+                                                                                <h3 class="title"> <a href="#">Outdoor Lock Chair</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
@@ -856,7 +856,7 @@
                                                                     <div class="col-md-4 col-sm-6">
                                                                         <div class="single-grid-product">
                                                                             <div class="product-image">
-                                                                                <a href="{% url 'product-details' %}">
+                                                                                <a href="#">
                                                                                     <img src={% static "./assets/images/product/product-16.jpg" %} class="img-fluid" alt="">
                                                                                     <img src={% static "./assets/images/product/product-15.jpg" %} class="img-fluid" alt="">
                                                                                 </a>
@@ -874,7 +874,7 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="{% url 'product-details' %}">Normal Dining chair</a></h3>
+                                                                                <h3 class="title"> <a href="#">Normal Dining chair</a></h3>
                                                                                 <div class="product-category-rating">
                                                                                     <span class="rating">
                                                                                 <i class="fa fa-star active"></i>
