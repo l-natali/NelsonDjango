@@ -1,5 +1,6 @@
 from django import forms
 from .models import Subscribe, WriteUs
+from django.contrib.auth import get_user_model
 
 
 class SubscribeForm(forms.ModelForm):
@@ -61,3 +62,37 @@ class WriteUsForm(forms.ModelForm):
     class Meta:
         model = WriteUs
         fields = ('name', 'email', 'notabot', 'message', )
+
+
+User = get_user_model()
+
+
+class RegistrationUserForm(forms.ModelForm):
+
+    class Meta:
+
+        model = User
+        fields = ('username', 'password', )
+
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'name': 'username',
+        'value': '',
+        'type': 'text',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'name': 'password',
+        'value': '',
+        'type': 'password',
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'name': 'password2',
+        'value': '',
+        'type': 'password',
+    }))
+
+    def clean_password2(self):
+        data = self.cleaned_data
+
+        if data['password'] == data['password2']:
+            return data['password2']
+        return forms.ValidationError('Паролі не співпадають!')
