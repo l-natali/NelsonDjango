@@ -1,6 +1,6 @@
 from django import forms
 from .models import Subscribe, WriteUs
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
 
 class SubscribeForm(forms.ModelForm):
@@ -94,5 +94,31 @@ class RegistrationUserForm(forms.ModelForm):
         data = self.cleaned_data
 
         if data['password'] == data['password2']:
-            return data['password2']
-        return forms.ValidationError('Паролі не співпадають!')
+            return data['password']
+        raise forms.ValidationError('Паролі не співпадають!')
+
+
+class LoginUserForm(forms.Form):
+
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'name': 'username',
+        'value': '',
+        'type': 'text',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'name': 'password',
+        'value': '',
+        'type': 'password',
+    }))
+
+    def clean(self):
+
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if not user or not user.check_password(password):
+                raise forms.ValidationError('Логін або пароль введені невірно!')
+            return super().clean()
+

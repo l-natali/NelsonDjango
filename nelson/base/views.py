@@ -1,8 +1,11 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Category, Product, ProductPhoto, Advantages, DiscountBanner, Furniture, HomeBanner, Review, Brands
 from .models import Contact, Blog, BlogBanner, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner, ContactBanner
-from .forms import SubscribeForm, WriteUsForm, RegistrationUserForm
+from .forms import SubscribeForm, WriteUsForm, RegistrationUserForm, LoginUserForm
 from cart.cart import Cart
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def base(request):
@@ -167,22 +170,41 @@ def my_account(request):
     return render(request, 'my-account.html', context=data)
 
 
-def login(request):
+def login_view(request):
+
+    reg_form = RegistrationUserForm()
+    login_form = LoginUserForm()
+    cart = Cart(request)
+
+    data = {'cart': cart,
+            'reg_form': reg_form,
+            'login_form': login_form,
+            }
 
     reg_form = RegistrationUserForm(request.POST or None)
+    login_form = LoginUserForm(request.POST or None)
+
+    if login_form.is_valid():
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/my-account')
 
     if reg_form.is_valid():
         new_user = reg_form.save(commit=False)
         new_user.set_password(reg_form.cleaned_data['password'])
         new_user.save()
-
-    cart = Cart(request)
-
-    data = {'cart': cart,
-            'reg_form': reg_form,
-            }
+        messages.success(request, 'success')
+        return render(request, 'login-register.html', context=data)
 
     return render(request, 'login-register.html', context=data)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 
 def blog(request):

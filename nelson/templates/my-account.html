@@ -110,6 +110,7 @@
                                             <li><a href="{% url 'my-account' %}">My account</a>
                                                 <ul>
                                                     <li><a href="{% url 'login-register' %}">Login</a></li>
+                                                    <li><a href="{% url 'logout' %}">Logout</a></li>
                                                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                                     <li><a href="{% url 'my-account' %}">My account</a></li>
                                                     <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
@@ -408,7 +409,7 @@
                                             <h3>Dashboard</h3>
 
                                             <div class="welcome mb-20">
-                                                <p>Hello, <strong>Alex Tuntuni</strong> (If Not <strong>Tuntuni !</strong><a href="{% url 'login-register' %}" class="logout"> Logout</a>)</p>
+                                                <p>Hello, <strong>{{ user.username }}</strong> (If Not <strong>{{ user.username }} !</strong><a href="{% url 'login-register' %}" class="logout"> Logout</a>)</p>
                                             </div>
 
                                             <p class="mb-0">From your account dashboard. you can easily check &amp; view your
