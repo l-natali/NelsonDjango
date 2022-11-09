@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from base.views import base, shop, about, faq, compare, product_details, cart, checkout, wishlist, my_account
-from base.views import blog, blog_details, contact, login_view, logout_view
+from base.views import base, shop, about, faq, compare, product_details, checkout, my_account
+from base.views import contact, login_view, logout_view
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,12 +30,12 @@ urlpatterns = [
     path('compare/', compare, name='compare'),
     path('cart/', include('cart.urls', namespace='cart')),
     path('checkout/', checkout, name='checkout'),
-    path('wishlist/', wishlist, name='wishlist'),
+    path('wishlist/', include('wishlist.urls', namespace='wishlist')),
+    # path('wishlist/', wishlist, name='wishlist'),
     path('my-account/', my_account, name='my-account'),
     path('login-register/', login_view, name='login-register'),
     path('logout/', logout_view, name='logout'),
-    path('blog/', blog, name='blog'),
-    path('blog-details/', blog_details, name='blog-details'),
+    path('blog/', include('blog.urls', namespace='blog')),
     path('contact/', contact, name='contact'),
 
 ]

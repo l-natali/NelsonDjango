@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Category, Product, ProductPhoto, HomeBanner, Furniture, DiscountBanner, Advantages, Review, Brands
-from .models import Contact, Subscribe, WriteUs, Blog, BlogBanner, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner
+from .models import Contact, Subscribe, WriteUs, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner
 from .models import ContactBanner
 
 
@@ -14,8 +14,6 @@ admin.site.register(Brands)
 admin.site.register(Contact)
 admin.site.register(Subscribe)
 admin.site.register(WriteUs)
-admin.site.register(Blog)
-admin.site.register(BlogBanner)
 admin.site.register(About)
 admin.site.register(AboutBanner)
 admin.site.register(Team)

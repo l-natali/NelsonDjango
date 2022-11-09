@@ -56,10 +56,9 @@
                                                     <ul>
                                                         <li><a href="{% url 'shop:shop' %}">Shop</a></li>
                                                         <li><a href="{% url 'compare' %}">Compare</a></li>
-                                                        <li><a href="#">Product Details</a></li>
                                                         <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="{% url 'my-account' %}" class="item-link">Account</a>
@@ -71,10 +70,9 @@
                                             </ul>
                                         </li>
                                         <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                                        <li><a href="{% url 'blog' %}">Blog</a>
+                                        <li><a href="{% url 'blog:blog' %}">Blog</a>
                                             <ul class="sub-menu">
-                                                <li><a href="{% url 'blog' %}">Blog</a></li>
-                                                <li><a href="{% url 'blog-details' %}">Blog Details</a></li>
+                                                <li><a href="{% url 'blog:blog' %}">Blog</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -114,7 +112,7 @@
                                                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                                     <li><a href="{% url 'my-account' %}">My account</a></li>
                                                     <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
@@ -255,7 +253,7 @@
                                             <li><a href="#">Product Details</a></li>
                                             <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                             <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
                                         </ul>
                                     </li>
                                     <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
@@ -268,10 +266,9 @@
                                 </ul>
                             </li>
                             <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                            <li class="menu-item-has-children"><a href="{% url 'blog' %}">Blog</a>
+                            <li class="menu-item-has-children"><a href="{% url 'blog:blog' %}">Blog</a>
                                 <ul class="submenu2">
-                                    <li><a href="{% url 'blog' %}">Blog</a></li>
-                                    <li><a href="{% url 'blog-details' %}">Blog Details</a></li>
+                                    <li><a href="{% url 'blog:blog' %}">Blog</a></li>
                                 </ul>
                             </li>
                             <li class="menu-item-has-children"><a href="{% url 'contact' %}">Contact</a>
@@ -289,7 +286,7 @@
                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                         <li><a href="{% url 'my-account' %}">My account</a></li>
                                         <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
@@ -383,16 +380,16 @@
                                     <!-- Product Details Left -->
                                     <div class="product-details-left">
                                         <div class="product-details-images">
-                                            {% for img in photo %}
+                                            {% for item in product.photo.all %}
                                             <div class="lg-image">
-                                                <img src="{{ img.photo.url }}" alt="">
-                                                <a href="{{ img.photo.url }}" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
+                                                <img src="{{ item }}" alt="">
+                                                <a href="{{ item }}" class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
                                             </div>
                                             {% endfor %}
                                         </div>
                                         <div class="product-details-thumbs">
-                                            {% for img in photo %}
-                                            <div class="sm-image"><img src="{{ img.photo.url }}" alt="product image thumb"></div>
+                                            {% for item in product.photo.all %}
+                                            <div class="sm-image"><img src="{{ item }}" alt="product image thumb"></div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -620,7 +617,7 @@
                             <h4 class="title"><span class="text">Quick Link</span></h4>
                             <ul class="ft-menu">
                                 <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
                                 <li><a href="#">Order Tracking</a></li>
                                 <li><a href="#">Privacy Policy</a></li>
                                 <li><a href="#">Shipping Information</a></li>

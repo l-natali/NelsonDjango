@@ -18,6 +18,21 @@ class Category(models.Model):
         ordering = ('position', )
 
 
+class ProductPhoto(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('product_photo/', new_filename)
+
+    # product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=get_file_name)
+    description = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return f'{self.description}'
+
+
 class Product(models.Model):
 
     slug = models.SlugField(max_length=200, db_index=True)
@@ -30,6 +45,7 @@ class Product(models.Model):
     new_arrival = models.BooleanField(default=True)
     is_visible = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    photo = models.ManyToManyField(ProductPhoto)
 
     def __str__(self):
         return f'{self.title}'
@@ -39,21 +55,6 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("shop:products", args=[self.id, self.slug])
-
-
-class ProductPhoto(models.Model):
-
-    def get_file_name(self, filename: str) -> str:
-        ext_file = filename.strip().split('.')[-1]
-        new_filename = f'{uuid.uuid4()}.{ext_file}'
-        return os.path.join('products/', new_filename)
-
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to=get_file_name)
-    position = models.SmallIntegerField(default=1)
-
-    def __str__(self):
-        return f'{self.product}'
 
 
 class HomeBanner(models.Model):
@@ -200,38 +201,6 @@ class WriteUs(models.Model):
 
     def __str__(self):
         return f'{self.name, self.message[:50]}'
-
-
-class Blog(models.Model):
-
-    def get_file_name(self, filename: str) -> str:
-        ext_file = filename.strip().split('.')[-1]
-        new_filename = f'{uuid.uuid4()}.{ext_file}'
-        return os.path.join('blog/', new_filename)
-
-    title = models.CharField(max_length=100, db_index=True)
-    photo = models.ImageField(upload_to=get_file_name)
-    data = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.title}'
-
-    class Meta:
-        ordering = ('-data', )
-
-
-class BlogBanner(models.Model):
-
-    def get_file_name(self, filename: str) -> str:
-        ext_file = filename.strip().split('.')[-1]
-        new_filename = f'{uuid.uuid4()}.{ext_file}'
-        return os.path.join('blog_banner/', new_filename)
-
-    title = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=get_file_name)
-
-    def __str__(self):
-        return f'{self.title}'
 
 
 class AboutBanner(models.Model):

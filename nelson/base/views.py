@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Category, Product, ProductPhoto, Advantages, DiscountBanner, Furniture, HomeBanner, Review, Brands
-from .models import Contact, Blog, BlogBanner, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner, ContactBanner
+from .models import Contact, AboutBanner, About, Team, FaqBanner, Faq, ShopBanner, ContactBanner
 from .forms import SubscribeForm, WriteUsForm, RegistrationUserForm, LoginUserForm
 from cart.cart import Cart
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from blog.models import Blog
 from django.contrib.auth.decorators import login_required
 
 
@@ -61,7 +62,7 @@ def shop(request):
     categories = Category.objects.filter(is_visible=True)
     products = Product.objects.filter(is_visible=True)
     new_arrivals = Product.objects.filter(new_arrival=True)
-    img = ProductPhoto.objects.filter(position=1)
+    img = Product.objects.all()
     shop_banner = ShopBanner.objects.all()
     subscribe = SubscribeForm()
     cart = Cart(request)
@@ -80,12 +81,12 @@ def shop(request):
 
 def product_details(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, is_visible=True)
-    photo = ProductPhoto.objects.all()
     cart = Cart(request)
+    print(product.photo)
+
     return render(request,
                   'single-product.html',
                   {'product': product,
-                   'photo': photo,
                    'cart': cart,
                    })
 
@@ -148,16 +149,8 @@ def compare(request):
     return HttpResponse('Hello from compare page')
 
 
-def cart(request):
-    return HttpResponse('Hello from cart page')
-
-
 def checkout(request):
     return HttpResponse('Hello from checkout page')
-
-
-def wishlist(request):
-    return HttpResponse('Hello from wishlist page')
 
 
 def my_account(request):
@@ -207,31 +200,6 @@ def logout_view(request):
     return redirect('/')
 
 
-def blog(request):
-
-    if request.method == 'POST':
-        subscribe = SubscribeForm(request.POST)
-        if subscribe.is_valid():
-            subscribe.save()
-            return redirect('/')
-
-    blog_post = Blog.objects.all()
-    blog_banner = BlogBanner.objects.all()
-    subscribe = SubscribeForm()
-    cart = Cart(request)
-
-    data = {
-        'blog_post': blog_post,
-        'blog_banner': blog_banner,
-        'subscribe_form': subscribe,
-        'cart': cart,
-    }
-
-    return render(request, 'blog.html', context=data)
-
-
-def blog_details(request):
-    return HttpResponse('Hello from blog-details page')
 
 
 def contact(request):
