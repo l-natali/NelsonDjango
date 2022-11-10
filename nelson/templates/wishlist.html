@@ -59,7 +59,7 @@
                                                         <li><a href="#">Product Details</a></li>
                                                         <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="#" class="item-link">Account</a>
@@ -113,7 +113,7 @@
                                                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                                     <li><a href="{% url 'my-account' %}">My account</a></li>
                                                     <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
@@ -253,7 +253,7 @@
                                             <li><a href="{% url 'compare' %}">Compare</a></li>
                                             <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                             <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                         </ul>
                                     </li>
                                     <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
@@ -286,7 +286,7 @@
                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                         <li><a href="{% url 'my-account' %}">My account</a></li>
                                         <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
@@ -376,43 +376,28 @@
 
                     <div class="col-12">
                         <!-- Cart Table -->
+
                         <div class="cart-table table-responsive mb-30">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="pro-thumbnail">Image</th>
-                                        <th class="pro-title">Product</th>
-                                        <th class="pro-price">Price</th>
-                                        <th class="pro-stock">Stock Status</th>
-                                        <th class="pro-addtocart">Add to cart</th>
-                                        <th class="pro-remove">Remove</th>
+                                        <th class="pro-thumbnail">Зображення</th>
+                                        <th class="pro-title">Товар</th>
+                                        <th class="pro-price">Ціна</th>
+                                        <th class="pro-addtocart">Додати в кошик</th>
+                                        <th class="pro-remove">Видалити</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for item in wishlist %}
                                     <tr>
                                         <td class="pro-thumbnail"><a href="#"><img src={% static "assets/images/product/product-1.jpg" %} alt="Product"></a></td>
-                                        <td class="pro-title"><a href="#">Black Cable Restorer</a></td>
-                                        <td class="pro-price"><span>$25.00</span></td>
-                                        <td class="pro-stock"><span class="in-stock">in stock</span></td>
-                                        <td class="pro-addtocart"><button class="btn">Add to cart</button></td>
-                                        <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                                        <td class="pro-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></td>
+                                        <td class="pro-price"><span>{{ item.price }} грн</span></td>
+                                        <td class="pro-addtocart"><button class="btn">Додати в кошик</button></td>
+                                        <td class="pro-remove"><a href="{% url 'wishlist:wishlist_remove' item.id %}"><i class="fa fa-trash-o"></i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img src={% static "assets/images/product/product-3.jpg" %} alt="Product"></a></td>
-                                        <td class="pro-title"><a href="#">Black Die Grinder</a></td>
-                                        <td class="pro-price"><span>$25.00</span></td>
-                                        <td class="pro-stock"><span class="in-stock">in stock</span></td>
-                                        <td class="pro-addtocart"><button class="btn">Add to cart</button></td>
-                                        <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a href="#"><img src={% static "assets/images/product/product-5.jpg" %} alt="Product"></a></td>
-                                        <td class="pro-title"><a href="#">Orange Decker drill</a></td>
-                                        <td class="pro-price"><span>$25.00</span></td>
-                                        <td class="pro-stock"><span class="out-stock">Out stock</span></td>
-                                        <td class="pro-addtocart"><button class="btn">Add to cart</button></td>
-                                        <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -478,7 +463,7 @@
                             <h4 class="title"><span class="text">Quick Link</span></h4>
                             <ul class="ft-menu">
                                 <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                 <li><a href="#">Order Tracking</a></li>
                                 <li><a href="#">Privacy Policy</a></li>
                                 <li><a href="#">Shipping Information</a></li>

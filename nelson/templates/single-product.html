@@ -58,7 +58,7 @@
                                                         <li><a href="{% url 'compare' %}">Compare</a></li>
                                                         <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="{% url 'my-account' %}" class="item-link">Account</a>
@@ -112,7 +112,7 @@
                                                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                                     <li><a href="{% url 'my-account' %}">My account</a></li>
                                                     <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
@@ -253,7 +253,7 @@
                                             <li><a href="#">Product Details</a></li>
                                             <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
                                             <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                         </ul>
                                     </li>
                                     <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
@@ -286,7 +286,7 @@
                                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                         <li><a href="{% url 'my-account' %}">My account</a></li>
                                         <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
@@ -432,7 +432,7 @@
                                             </form>
                                         </div>
                                         <div class="wishlist-compare-btn">
-                                            <a href="#" class="wishlist-btn">Add to Wishlist</a>
+                                            <a href="{% url 'wishlist:wishlist_add' product.id %}" class="wishlist-btn">Add to Wishlist</a>
                                             <a href="#" class="add-compare">Compare</a>
                                         </div>
                                         <div class="product-meta">
@@ -617,7 +617,7 @@
                             <h4 class="title"><span class="text">Quick Link</span></h4>
                             <ul class="ft-menu">
                                 <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist:wishlist' %}">Wishlist</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
                                 <li><a href="#">Order Tracking</a></li>
                                 <li><a href="#">Privacy Policy</a></li>
                                 <li><a href="#">Shipping Information</a></li>
