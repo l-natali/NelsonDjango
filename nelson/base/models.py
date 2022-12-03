@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 import uuid
 import os.path
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -28,6 +29,7 @@ class ProductPhoto(models.Model):
     # product = models.ForeignKey(Product, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=get_file_name)
     description = models.CharField(max_length=20, blank=True)
+    position = models.SmallIntegerField(default=1)
 
     def __str__(self):
         return f'{self.description}'
@@ -46,6 +48,7 @@ class Product(models.Model):
     is_visible = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     photo = models.ManyToManyField(ProductPhoto)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.title}'
@@ -54,7 +57,7 @@ class Product(models.Model):
         index_together = (('id', 'slug'), )
 
     def get_absolute_url(self):
-        return reverse("shop:products", args=[self.id, self.slug])
+        return reverse("shop:products", args=[self.slug])
 
 
 class HomeBanner(models.Model):
@@ -298,3 +301,122 @@ class ShopBanner(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class Profile(models.Model):
+
+    mobile_re = RegexValidator(regex=r'^(\d{3}[- ]?){2}\d{4}$', message='Phone in format xxx xxx xxxx')
+    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    first_name = models.TextField(max_length=20)
+    last_name = models.TextField(max_length=20)
+    email = models.CharField(max_length=50, validators=[email_re])
+
+    phone = models.CharField(max_length=15, validators=[mobile_re], blank=True)
+    address = models.CharField(max_length=200, blank=True)
+    # country = models.CharField(max_length=30, choices=COUNTRIES, default=False)
+    city = models.CharField(max_length=30, blank=True)
+    state = models.CharField(max_length=50, blank=True)
+    zip_code = models.PositiveIntegerField(max_length=10, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user}, {self.first_name} {self.last_name}'
+
+
+class ProductDetailBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('product_detail_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class CompareBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('compare_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class WishlistBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('wishlist_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class BlogDetailBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('blog_detail_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class AccountBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('account_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class LoginBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('login_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+class CartBanner(models.Model):
+
+    def get_file_name(self, filename: str) -> str:
+        ext_file = filename.strip().split('.')[-1]
+        new_filename = f'{uuid.uuid4()}.{ext_file}'
+        return os.path.join('cart_banner/', new_filename)
+
+    title = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to=get_file_name)
+
+    def __str__(self):
+        return f'{self.title}'
+

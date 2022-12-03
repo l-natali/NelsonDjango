@@ -1,6 +1,7 @@
 from django import forms
-from .models import Subscribe, WriteUs
+from .models import Subscribe, WriteUs, Profile
 from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class SubscribeForm(forms.ModelForm):
@@ -67,58 +68,107 @@ class WriteUsForm(forms.ModelForm):
 User = get_user_model()
 
 
-class RegistrationUserForm(forms.ModelForm):
+# class RegistrationUserForm(forms.ModelForm):
+#
+#     class Meta:
+#
+#         model = User
+#         fields = ('username', 'password', )
+#
+#     username = forms.CharField(widget=forms.TextInput(attrs={
+#         'name': 'username',
+#         'value': '',
+#         'type': 'text',
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'name': 'password',
+#         'value': '',
+#         'type': 'password',
+#     }))
+#     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'name': 'password2',
+#         'value': '',
+#         'type': 'password',
+#     }))
+#
+#     def clean_password2(self):
+#         data = self.cleaned_data
+#
+#         if data['password'] == data['password2']:
+#             return data['password']
+#         raise forms.ValidationError('Паролі не співпадають!')
+#
+#
+# class LoginUserForm(forms.Form):
+#
+#     username = forms.CharField(widget=forms.TextInput(attrs={
+#         'name': 'username',
+#         'value': '',
+#         'type': 'text',
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'name': 'password',
+#         'value': '',
+#         'type': 'password',
+#     }))
+#
+#     def clean(self):
+#
+#         username = self.cleaned_data.get('username')
+#         password = self.cleaned_data.get('password')
+#
+#         if username and password:
+#             user = authenticate(username=username, password=password)
+#             if not user or not user.check_password(password):
+#                 raise forms.ValidationError('Логін або пароль введені невірно!')
+#             return super().clean()
+
+
+class ProfileForm(forms.ModelForm):
+
+    first_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={
+        'id': 'first-name',
+        'placeholder': 'First Name',
+        'type': 'text',
+    }))
+
+    last_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={
+        'id': 'last-name',
+        'placeholder': 'Last Name',
+        'type': 'text',
+    }))
+
+    email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
+        'id': 'email',
+        'placeholder': 'Email Address',
+        'type': 'email',
+    }))
+
+    class Meta:
+
+        model = Profile
+        fields = ('first_name', 'last_name', 'email', )
+
+
+class PasswordChangingForm(PasswordChangeForm):
+
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'id': 'current-pwd',
+        'placeholder': 'Current Password',
+        'type': 'password',
+    }))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'id': 'new-pwd',
+        'placeholder': 'New Password',
+        'type': 'password',
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'id': 'confirm-pwd',
+        'placeholder': 'Confirm Password',
+        'type': 'password',
+    }))
 
     class Meta:
 
         model = User
-        fields = ('username', 'password', )
-
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'name': 'username',
-        'value': '',
-        'type': 'text',
-    }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'name': 'password',
-        'value': '',
-        'type': 'password',
-    }))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'name': 'password2',
-        'value': '',
-        'type': 'password',
-    }))
-
-    def clean_password2(self):
-        data = self.cleaned_data
-
-        if data['password'] == data['password2']:
-            return data['password']
-        raise forms.ValidationError('Паролі не співпадають!')
-
-
-class LoginUserForm(forms.Form):
-
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'name': 'username',
-        'value': '',
-        'type': 'text',
-    }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'name': 'password',
-        'value': '',
-        'type': 'password',
-    }))
-
-    def clean(self):
-
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if not user or not user.check_password(password):
-                raise forms.ValidationError('Логін або пароль введені невірно!')
-            return super().clean()
-
+        fields = ('old_password', 'password1', 'password2', )

@@ -1,9 +1,9 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.views.decorators.http import require_GET
 from .wishlist import Wishlist
-from base.models import Product
-from cart.cart import Cart
-from django.conf import settings
+from base.models import Product, WishlistBanner
+from cart.models import CartProduct, Cart
+from base.forms import SubscribeForm
 
 
 @require_GET
@@ -23,4 +23,19 @@ def wishlist_remove(request, product_id):
 
 def wishlist_detail(request):
     wishlist = Wishlist(request)
-    return render(request, 'wishlist.html', {'wishlist': wishlist})
+    # cart = Cart(request)
+    wishlist_banner = WishlistBanner.objects.all()
+    subscribe = SubscribeForm()
+    cart_id = request.session.get('cart_id', None)
+    if cart_id:
+        cart = Cart.objects.get(id=cart_id)
+    else:
+        cart = None
+
+    data = {
+        'wishlist': wishlist,
+        'cart': cart,
+        'banner': wishlist_banner,
+        'subscribe_form': subscribe,
+    }
+    return render(request, 'wishlist.html', context=data)

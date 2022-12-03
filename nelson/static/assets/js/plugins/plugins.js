@@ -128,7 +128,7 @@ Author: Siddharth Doshi
 
 
 /*
-* Ajax Contact Form 
+* Ajax Contact Form
 */
 $(function() {
 

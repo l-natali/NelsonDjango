@@ -42,40 +42,22 @@
                             <div class="header-menu-area text-center">
                                 <nav class="main-menu">
                                     <ul>
-                                        <li><a href="{% url 'home' %}">Home</a>
+                                        <li><a href="{% url 'home' %}">Головна</a>
                                         </li>
-                                        <li><a href="{% url 'shop:shop' %}">Shop</a>
-                                            <ul class="mega-menu four-column left-0">
-                                                <li><a href="{% url 'about' %}" class="item-link">About us</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'about' %}">About</a></li>
-                                                        <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="{% url 'shop:shop' %}" class="item-link">Shop</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                                        <li><a href="{% url 'compare' %}">Compare</a></li>
-                                                        <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#" class="item-link">Account</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'my-account' %}">My Account</a></li>
-                                                        <li><a href="{% url 'login-register' %}">Login Register</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                                        <li><a href="{% url 'blog:blog' %}">Blog</a>
+                                        <li><a href="{% url 'shop:shop' %}">Магазин</a>
                                             <ul class="sub-menu">
-                                                <li><a href="{% url 'blog:blog' %}">Blog</a></li>
+                                                <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                                        <li><a href="{% url 'about' %}">Загальна інформація</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                                <li><a href="{% url 'faq' %}">Часті запитання</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'blog:blog' %}">Блог</a></li>
+                                        <li><a href="{% url 'contact' %}">Контакти</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -89,43 +71,28 @@
                                     <li class="currency-menu"><a href="#"><i class="flaticon-user"></i></a>
                                         <!--Crunccy dropdown-->
                                         <ul class="currency-dropdown">
-                                            <!--Language Currency Start-->
-                                            <li><a href="#">language</a>
-                                                <ul>
-                                                    <li class="active"><a href="#"><img src={% static "./assets/images/icons/en-gb.png" %} alt="">English</a></li>
-                                                    <li><a href="#"><img src={% static "./assets/images/icons/de-de.png" %} alt="">French</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--Language Currency End-->
-                                            <!--USD Currency Start-->
-                                            <li><a href="#">Currency</a>
-                                                <ul>
-                                                    <li><a href="#"> € Euro</a></li>
-                                                    <li><a href="#"> $ US Dollar</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--USD Currency End-->
                                             <!--Account Currency Start-->
-                                            <li><a href="{% url 'my-account' %}">My account</a>
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                                 <ul>
-                                                    <li><a href="{% url 'login-register' %}">Login</a></li>
-                                                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                    <li><a href="{% url 'my-account' %}">My account</a></li>
-                                                    <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                                    {% if user.customer %}
+                                                    <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                                    <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                                    {% else %}
+                                                    <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'cart:mycart' %}">Корзина</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    {% with total_items=cart|length %}
-                                    <li class="mini-cart"><a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.get_total_price }} ({{ total_items }})</span></a>
-                                    {% endwith %}
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
-                                                {% for item in cart %}
+                                                {% for item in cart.cartproduct_set.all %}
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
@@ -134,10 +101,10 @@
                                                             <div class="cart-content">
                                                                 <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
                                                                 <span class="product-quantity">{{ item.quantity}} ×</span>
-                                                                <span class="product-price">{{ product.price }} грн</span>
+                                                                <span class="product-price">{{ item.rate }} грн</span>
                                                             </div>
                                                             <div class="cart-item-remove">
-                                                                <a title="Remove" href="{% url 'cart:cart_remove' product.id %}"><i class="fa fa-trash"></i></a>
+                                                                <a title="Remove" href="{% url 'cart:managecart' item.id %}?action=rmv"><i class="fa fa-trash"></i></a>
                                                             </div>
                                                         </li>
                                                     {% endwith %}
@@ -145,17 +112,15 @@
                                             </ul>
                                             <div class="cart-total">
                                                 <h5>Всього</h5>
-                                                {% for item in cart %}
-                                                    {% with product=item.product %}
-                                                        <h6>{{ product.title }}: <span class="float-right">{{ item.total_price }} грн</span></h6>
-                                                    {% endwith %}
+                                                {% for item in cart.cartproduct_set.all %}
+                                                        <h6>{{ item.product.title }}: <span class="float-right">{{ item.subtotal }} грн</span></h6>
                                                 {% endfor %}
                                                 <h4>Загальна вартість:</h4>
-                                                <h5><span class="float-right">{{ cart.get_total_price }} грн</span></h5>
+                                                <h5><span class="float-right">{{ cart.total }} грн</span></h5>
                                             </div>
                                             <div class="cart-btn">
-                                                <a href="{% url 'cart:cart_detail' %}">View Cart</a>
-                                                <a href="{% url 'checkout' %}">checkout</a>
+                                                <a href="{% url 'cart:mycart' %}">Перейти до корзини</a>
+                                                <a href="{% url 'order:checkout' %}">Замовити</a>
                                             </div>
                                         </div>
                                         <!--Mini Cart Dropdown End-->
@@ -191,7 +156,7 @@
                                                 <ul class="icon-list justify-content-end">
                                                     <li>
                                                         <div class="header-cart-icon">
-                                                            <a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i></a>
+                                                            <a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i></a>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -236,42 +201,39 @@
                     </div>
                     <nav class="offcanvas-navigation">
                         <ul>
-                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Home</a>
+                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Головна</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                 <ul class="submenu2">
-                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">About us</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">Загальна інформація</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'about' %}">About</a></li>
-                                            <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
+                                            <li><a href="{% url 'about' %}">Про нас</a></li>
+                                            <li><a href="{% url 'faq' %}">Часті запитання</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                            <li><a href="{% url 'compare' %}">Compare</a></li>
-                                            <li><a href="#">Product Details</a></li>
-                                            <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                            <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'shop:shop' %}">Магазин</a></li>
+                                            <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                         <ul class="submenu2">
-                                            <<li><a href="{% url 'my-account' %}">My Account</a></li>
-                                            <li><a href="{% url 'login-register' %}">Login Register</a></li>
+                                            {% if user.customer %}
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                            <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                            {% endif %}
                                         </ul>
                                     </li>
 
                                 </ul>
                             </li>
-                            <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                            <li class="menu-item-has-children"><a href="{% url 'blog:blog' %}">Blog</a>
-                                <ul class="submenu2">
-                                    <li><a href="{% url 'blog:blog' %}">Blog</a></li>
-                                </ul>
+                            <li class="menu-item-has-children"><a href="{% url 'blog:blog' %}">Блог</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'contact' %}">Contact</a>
+                            <li class="menu-item-has-children"><a href="{% url 'contact' %}">Контакти</a>
                             </li>
 
                         </ul>
@@ -280,25 +242,16 @@
                     <div class="offcanvas-settings">
                         <nav class="offcanvas-navigation">
                             <ul>
-                                <li class="menu-item-has-children"><a href="{% url 'my-account' %}">MY ACCOUNT </a>
+                                <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">АККАУНТ</a>
                                     <ul class="submenu2">
-                                        <li><a href="{% url 'login-register' %}">Login</a></li>
-                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                        <li><a href="{% url 'my-account' %}">My account</a></li>
-                                        <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)">€ Euro</a></li>
-                                        <li><a href="javascript:void(0)">$ US Dollar</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">LANGUAGE: EN-GB </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/en-gb.png" %} alt=""> English</a></li>
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/de-de.png" %} alt=""> Germany</a></li>
+                                        {% if user.customer %}
+                                        <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                        <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                        {% else %}
+                                        <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                        {% endif %}
+                                        <li><a href="{% url 'cart:mycart' %}">Корзина</a></li>
+                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -357,9 +310,9 @@
                 <div class="row">
                     <div class="col">
                         <div class="page-banner text-left">
-                            <h2>Shop</h2>
+                            <h2>{{ ban.title }}</h2>
                             <ul class="page-breadcrumb">
-                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'home' %}">Головна</a></li>
                                 <li>{{ ban.title }}</li>
                             </ul>
                         </div>
@@ -414,8 +367,9 @@
                                 <div class="col-lg-3 order-lg-1 order-2">
                                     <!-- Single Sidebar Start  -->
                                     <div class="common-sidebar-widget">
-                                        <h3 class="sidebar-title">Product categories</h3>
-                                        <ul class="sidebar-list">
+                                        <h3 class="sidebar-title">Категорії товарів</h3>
+                                        <ul id="product-filters">
+                                            <li data-filter="*" class="filter-active">Показати всі</li>
                                             {% for category in categories %}
                                                 <li data-filter=".filter-cat{{ category.pk }}">{{ category.title }}</li>
                                             {% endfor %}
@@ -432,19 +386,10 @@
                                         </ul>
                                     </div>
                                     <!-- Single Sidebar End  -->
+
                                     <!-- Single Sidebar Start  -->
                                     <div class="common-sidebar-widget">
-                                        <h3 class="sidebar-title">Filter by price</h3>
-                                        <div class="sidebar-price">
-                                            <div id="price-range" class="mb-20"></div>
-                                            <button type="button" class="btn">Filter</button>
-                                            <input type="text" id="price-amount" class="price-amount" readonly>
-                                        </div>
-                                    </div>
-                                    <!-- Single Sidebar End  -->
-                                    <!-- Single Sidebar Start  -->
-                                    <div class="common-sidebar-widget">
-                                        <h3 class="sidebar-title">Filter by</h3>
+                                        <h3 class="sidebar-title">Колір</h3>
                                         <ul class="sidebar-list">
                                             {% for product in products %}
                                                 <li data-filter=".filter-color {{ product.pk }}">{{ product.color }}</li>
@@ -457,20 +402,17 @@
                                     <!-- Single Sidebar End  -->
                                     <!-- Single Sidebar Start  -->
                                     <div class="common-sidebar-widget">
-                                        <h3 class="sidebar-title">Compare Products</h3>
+                                        <h3 class="sidebar-title">Порівняти товари</h3>
                                         <div class="compare-products-list">
+                                            {% for item in compare %}
                                             <ul>
                                                 <li>
-                                                    <a href="#" class="title">Cras neque metus</a>
-                                                    <a href="#" class="remove-compare"><i class="fa fa-close"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="title">Cras neque metus</a>
-                                                    <a href="#" class="remove-compare"><i class="fa fa-close"></i></a>
+                                                    <a href="{{ item.get_absolute_url }}" class="title">{{ item.title }}</a>
+                                                    <a href="{% url 'compare:compare_remove' item.id %}" class="remove-compare"><i class="fa fa-close"></i></a>
                                                 </li>
                                             </ul>
-                                            <a href="#" class="clear-btn">Clear all</a>
-                                            <button type="button" class="btn compare-btn">Compare</button>
+                                            {% endfor %}
+                                            <a href="{% url 'compare:compare_detail' %}"><button type="button" class="btn compare-btn">Порівняти</button></a>
                                         </div>
                                     </div>
                                     <!-- Single Sidebar End  -->
@@ -484,25 +426,26 @@
                                                         <div class="product-grid-view">
                                                             <div class="row">
 
-                                                                {% for product in products %}
+                                                                {% for product in product_list %}
 
                                                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                                                     <!--  Single Grid product Start -->
-                                                                    <div class="single-grid-product mb-40">
+                                                                    <div class="single-grid-product mb-40 filter-cat{{ product.category.pk }}">
                                                                         <div class="product-image">
                                                                             <div class="product-label">
                                                                                 <span>{{ product.sale }}%</span>
                                                                             </div>
-                                                                            {% for item in photo.photo.all %}
+                                                                            {% for item in product.photo.all %}
                                                                             <a href="{{ product.get_absolute_url }}">
-                                                                                <img src="{{ item }}" class="img-fluid" alt="">
-                                                                                <img src="{{ item }}" class="img-fluid" alt="">
+                                                                                {% if forloop.first %}
+                                                                                <img src="{{ item.photo.url }}" class="img-fluid" alt="">
+                                                                                {% endif %}
                                                                             </a>
                                                                             {% endfor %}
 
                                                                             <div class="product-action">
                                                                                 <ul>
-                                                                                    <li><a href="{% url 'cart:cart_add' product.id %}"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                    <li><a href="{% url 'cart:addtocart' product.id %}"><i class="fa fa-cart-plus"></i></a></li>
                                                                                     <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
                                                                                     <li><a href="{% url 'wishlist:wishlist_add' product.id %}"><i class="fa fa-heart-o"></i></a></li>
                                                                                 </ul>
@@ -524,24 +467,24 @@
                                                     <div id="list" class="tab-pane fade">
                                                         <div class="product-list-view">
                                                             <!-- Single List Product Start -->
+                                                            {% for product in product_list %}
                                                             <div class="product-list-item mb-40">
                                                                 <div class="row">
                                                                     <div class="col-md-4 col-sm-6">
                                                                         <div class="single-grid-product">
                                                                             <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span class="sale">New</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-3.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-4.jpg" %} class="img-fluid" alt="">
+                                                                                {% for item in product.photo.all %}
+                                                                                <a href="{{ product.get_absolute_url }}">
+                                                                                    <img src="{{ item.photo }}" class="img-fluid" alt="">
+                                                                                    <img src="{{ item.photo }}" class="img-fluid" alt="">
                                                                                 </a>
+                                                                                {% endfor %}
 
                                                                                 <div class="product-action">
                                                                                     <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                        <li><a href="{% url 'cart:addtocart' product.id %}"><i class="fa fa-cart-plus"></i></a></li>
                                                                                         <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
+                                                                                        <li><a href="{% url 'wishlist:wishlist_add' product.id %}"><i class="fa fa-heart-o"></i></a></li>
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
@@ -550,344 +493,17 @@
                                                                     <div class="col-md-8 col-sm-6">
                                                                         <div class="product-content-shop-list">
                                                                             <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Miro Dining Table</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$170.00</span> <span class="main-price discounted">$210.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                                                <h3 class="title"> <a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
+                                                                                <p class="product-price"><span class="discounted-price">{{ product.price }} грн</span> <span class="main-price discounted">$230.00</span></p>
+                                                                                <p class="product-desc">{{ product.description_short }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            {% endfor %}
                                                             <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span class="sale">New</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-1.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-2.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
 
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Stylish Design Chair</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$190.00</span> <span class="main-price discounted">$230.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span class="sale">New</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-3.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-4.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Janus Table Lamp</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$130.00</span> <span class="main-price discounted">$150.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span class="sale">New</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-5.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-6.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Normal Dining chair</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$190.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span class="sale">Sale</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-7.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-8.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Affordances Side Table</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$130.00</span> </p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span>-20%</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-10.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-11.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Hot Design Table</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$153.00</span> </p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <div class="product-label">
-                                                                                    <span>-29%</span>
-                                                                                </div>
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-12.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-13.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Outdoor Lock Chair</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$190.00</span> <span class="main-price discounted">$230.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
-                                                            <!-- Single List Product Start -->
-                                                            <div class="product-list-item mb-40">
-                                                                <div class="row">
-                                                                    <div class="col-md-4 col-sm-6">
-                                                                        <div class="single-grid-product">
-                                                                            <div class="product-image">
-                                                                                <a href="#">
-                                                                                    <img src={% static "./assets/images/product/product-16.jpg" %} class="img-fluid" alt="">
-                                                                                    <img src={% static "./assets/images/product/product-15.jpg" %} class="img-fluid" alt="">
-                                                                                </a>
-
-                                                                                <div class="product-action">
-                                                                                    <ul>
-                                                                                        <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-8 col-sm-6">
-                                                                        <div class="product-content-shop-list">
-                                                                            <div class="product-content">
-                                                                                <h3 class="title"> <a href="#">Normal Dining chair</a></h3>
-                                                                                <div class="product-category-rating">
-                                                                                    <span class="rating">
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star active"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                            </span>
-                                                                                    <span class="review"><a href="#">(1 review)</a></span>
-                                                                                </div>
-                                                                                <p class="product-price"><span class="discounted-price">$287.00</span></p>
-                                                                                <p class="product-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Single List Product Start -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -897,12 +513,19 @@
                                     <div class="row mb-30 mb-sm-40 mb-xs-30">
                                         <div class="col">
                                             <ul class="page-pagination">
-                                                <li class="active"><a href="#">01</a></li>
-                                                <li><a href="#">02</a></li>
-                                                <li><a href="#">03</a></li>
-                                                <li><a href="#">04</a></li>
-                                                <li><a href="#">05</a></li>
-                                                <li><a href="#">Next</a></li>
+                                            {% if product_list.has_previous %}
+                                                <li class="page-item"><a class="page-link" href="?page=1">&laquo Перша</a></li>
+                                                <li class="page-item"><a class="page-link" href="?page={{ product_list.previous_page_number }}">Попередня</a></li>
+                                            {% endif %}
+
+                                            {% for i in nums %}
+                                                <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}"> {{ forloop.counter }}</a></li>
+                                            {% endfor %}
+
+                                            {% if product_list.has_next %}
+                                                <li class="page-item"><a class="page-link" href="?page={{ product_list.next_page_number }}">Наступна</a></li>
+                                                <li class="page-item"><a class="page-link" href="?page={{ product_list.paginator.num_pages }}">Остання &raquo</a></li>
+                                            {% endif %}
                                             </ul>
                                         </div>
                                     </div>
@@ -920,16 +543,17 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="newsletter-content">
-                            <h2>Subscribe Our Newsletter</h2>
-                            <p>Subscribe Today for free and save 10% on your first purchase.</p>
+                            <h2>Підпишіться на нашу розсилку</h2>
+                            <p>Підпишіться сьогодні та заощадте 10% на першій покупці</p>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="newsletter-wrap">
                             <div class="newsletter-form">
-                                <form id="mc-form" class="mc-form">
-                                    <input type="email" placeholder="Enter Your Email Address Here..." required>
-                                    <button type="submit" value="submit">SUBSCRIBE!</button>
+                                <form action="" id="mc-form" method="post" class="mc-form">
+                                    {% csrf_token %}
+                                    {{ subscribe_form.email }}
+                                    <button type="submit" value="submit">ПІДПИСАТИСЬ!</button>
                                 </form>
 
                             </div>
@@ -956,46 +580,44 @@
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Opening Time</span></h4>
-                            <p class="mb-15">Mon – Fri: 8AM – 10PM</p>
-                            <p class="mb-15">Sat: 9AM-8PM</p>
-                            <p class="mb-15">Sun: Closed</p>
-                            <h4 class="opeaning-title">We Work All The Holidays</h4>
+                            <h4 class="title"><span class="text">Години роботи</span></h4>
+                            <p class="mb-15">Пон – Пт: 8.00 – 20.00</p>
+                            <p class="mb-15">Суб: 9.00-18.00</p>
+                            <p class="mb-15">Нд: Зачинено</p>
+                            <h4 class="opeaning-title">Ми працюємо в свята</h4>
                         </div>
                         <!--Footer Widget end-->
 
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Quick Link</span></h4>
+                            <h4 class="title"><span class="text">Швидкі посилання</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                <li><a href="#">Order Tracking</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Shipping Information</a></li>
+                                <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Information</span></h4>
+                            <h4 class="title"><span class="text">Загальна інформація</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'about' %}">About Us</a></li>
-                                <li><a href="#">Shopping Guide</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Store</a></li>
+                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Наш магазин</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget text-lg-right text-left col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h2>123 Widget Street Acmeville, AC-1209</h2>
-                            <p class="contact-text">hello@hasthemes.com</p>
-                            <p class="contact-text">+0123456789</p>
+                            <h2>Київ, вул. Князів Острозьких, 32</h2>
+                            <p class="contact-text">info@nelson.com</p>
+                            <p class="contact-text">+38(097)343-56-78</p>
                         </div>
                         <!--Footer Widget end-->
                     </div>
@@ -1028,121 +650,6 @@
 
         </footer>
         <!--Footer section end-->
-        <!-- Modal Area Strat -->
-        <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <!-- Product Details Left -->
-                                    <div class="product-details-left">
-                                        <div class="product-details-images">
-                                            <div class="lg-image">
-                                                <img src={% static "./assets/images/product/large-product/l-product-1.jpg" %} alt="">
-                                                <a href={% static "./assets/images/product/large-product/l-product-1.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src={% static "./assets/images/product/large-product/l-product-2.jpg" %} alt="">
-                                                <a href={% static "./assets/images/product/large-product/l-product-2.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src={% static "./assets/images/product/large-product/l-product-3.jpg" %} alt="">
-                                                <a href={% static "./assets/images/product/large-product/l-product-3.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src={% static "./assets/images/product/large-product/l-product-4.jpg" %} alt="">
-                                                <a href={% static "./assets/images/product/large-product/l-product-4.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src={% static "./assets/images/product/large-product/l-product-5.jpg" %} alt="">
-                                                <a href={% static "./assets/images/product/large-product/l-product-5.jpg" %} class="popup-img venobox" data-gall="myGallery"><i class="fa fa-expand"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-details-thumbs">
-                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-1.jpg" %} alt="product image thumb"></div>
-                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-2.jpg" %} alt="product image thumb"></div>
-                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-3.jpg" %} alt="product image thumb"></div>
-                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-4.jpg" %} alt="product image thumb"></div>
-                                            <div class="sm-image"><img src={% static "./assets/images/product/small-product/s-product-5.jpg" %} alt="product image thumb"></div>
-                                        </div>
-                                    </div>
-                                    <!--Product Details Left -->
-                                </div>
-                                <div class="col-lg-8 col-md-6">
-                                    <!--Product Details Content Start-->
-                                    <div class="product-details-content">
-                                        <!--Product Nav Start-->
-                                        <div class="product-nav">
-                                            <a href="#"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                                        </div>
-                                        <!--Product Nav End-->
-                                        <h2>Aliquam lobortis est turpis mauris egestas eget</h2>
-                                        <div class="single-product-reviews">
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <a class="review-link" href="#">(1 customer review)</a>
-                                        </div>
-                                        <div class="single-product-price">
-                                            <span class="price new-price">$66.00</span>
-                                            <span class="regular-price">$77.00</span>
-                                        </div>
-                                        <div class="product-description">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
-                                        </div>
-                                        <div class="single-product-quantity">
-                                            <form class="add-quantity" action="#">
-                                                <div class="product-quantity">
-                                                    <input value="1" type="number">
-                                                </div>
-                                                <div class="add-to-link">
-                                                    <button class="btn"><i class="ion-bag"></i>add to cart</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="wishlist-compare-btn">
-                                            <a href="#" class="wishlist-btn">Add to Wishlist</a>
-                                            <a href="#" class="add-compare">Compare</a>
-                                        </div>
-                                        <div class="product-meta">
-                                            <span class="posted-in">
-                                            Categories: 
-                                            <a href="#">Accessories</a>,
-                                            <a href="#">Electronics</a>
-                                        </span>
-                                        </div>
-                                        <div class="single-product-sharing">
-                                            <h3>Share this product</h3>
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!--Product Details Content End-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <!-- Modal Area End -->
     </div>
 
     <!-- Placed js at the end of the document so the pages load faster -->

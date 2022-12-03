@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from base.views import base, shop, about, faq, compare, product_details, checkout, my_account
-from base.views import contact, login_view, logout_view
+from base.views import base, shop, faq, product_details, AboutView, SearchView
+from base.views import contact
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,18 +25,17 @@ urlpatterns = [
     path('', base),
     path('home/', base, name='home'),
     path('shop/', include('base.urls', namespace='shop')),
-    path('about/', about, name='about'),
+    path('about/', AboutView.as_view(), name='about'),
     path('faq/', faq, name='faq'),
-    path('compare/', compare, name='compare'),
+    path('compare/', include('compare.urls', namespace='compare')),
     path('cart/', include('cart.urls', namespace='cart')),
-    path('checkout/', checkout, name='checkout'),
+    path('order/', include('order.urls', namespace='order')),
     path('wishlist/', include('wishlist.urls', namespace='wishlist')),
-    # path('wishlist/', wishlist, name='wishlist'),
-    path('my-account/', my_account, name='my-account'),
-    path('login-register/', login_view, name='login-register'),
-    path('logout/', logout_view, name='logout'),
     path('blog/', include('blog.urls', namespace='blog')),
     path('contact/', contact, name='contact'),
+    path('profile/', include('customerprofile.urls', namespace='customerprofile')),
+    path('manager/', include('manager.urls', namespace='manager')),
+    path('search/', SearchView.as_view(), name='search'),
 
 ]
 

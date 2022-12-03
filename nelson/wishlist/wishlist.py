@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.conf import settings
 from base.models import Product
 
@@ -22,7 +21,7 @@ class Wishlist:
         """
         product_id = str(product.id)
         if product_id not in self.wishlist:
-            self.wishlist[product_id] = {'product': product.title, 'price': str(product.price)}
+            self.wishlist[product_id] = {'product': product.title, 'price': str(product.price), 'photo': product.photo, }
         self.save()
 
     def save(self):
@@ -54,13 +53,6 @@ class Wishlist:
 
         for product in products:
             wishlist[str(product.id)] = product
-        print('iter', wishlist)
 
         for item in wishlist.values():
             yield item
-
-    # # def __len__(self):
-    # #     """
-    # #     Count all items in the cart.
-    # #     """
-    # #     return sum(item['quantity'] for item in self.wishlist.values())

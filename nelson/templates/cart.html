@@ -1,7 +1,7 @@
 {% load static %}
 
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="zxx" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -42,41 +42,22 @@
                             <div class="header-menu-area text-center">
                                 <nav class="main-menu">
                                     <ul>
-                                        <li><a href="{% url 'home' %}">Home</a>
+                                        <li><a href="{% url 'home' %}">Головна</a>
                                         </li>
-                                        <li><a href="{% url 'shop:shop' %}">Shop</a>
-                                            <ul class="mega-menu four-column left-0">
-                                                <li><a href="#" class="item-link">About us</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'about' %}">About</a></li>
-                                                        <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#" class="item-link">Shop</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                                        <li><a href="{% url 'compare' %}">Compare</a></li>
-                                                        <li><a href="#">Product Details</a></li>
-                                                        <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="{% url 'my-account' %}" class="item-link">Account</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'my-account' %}">My Account</a></li>
-                                                        <li><a href="{% url 'login-register' %}">Login Register</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                                        <li><a href="{% url 'blog:blog' %}">Blog</a>
+                                        <li><a href="{% url 'shop:shop' %}">Магазин</a>
                                             <ul class="sub-menu">
-                                                <li><a href="{% url 'blog:blog' %}">Blog</a></li>
+                                                <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                                        <li><a href="{% url 'about' %}">Загальна інформація</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                                <li><a href="{% url 'faq' %}">Часті запитання</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'blog:blog' %}">Блог</a></li>
+                                        <li><a href="{% url 'contact' %}">Контакти</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -90,55 +71,40 @@
                                     <li class="currency-menu"><a href="#"><i class="flaticon-user"></i></a>
                                         <!--Crunccy dropdown-->
                                         <ul class="currency-dropdown">
-                                            <!--Language Currency Start-->
-                                            <li><a href="#">language</a>
-                                                <ul>
-                                                    <li class="active"><a href="#"><img src={% static "./assets/images/icons/en-gb.png" %} alt="">English</a></li>
-                                                    <li><a href="#"><img src={% static "./assets/images/icons/de-de.png" %} alt="">French</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--Language Currency End-->
-                                            <!--USD Currency Start-->
-                                            <li><a href="#">Currency</a>
-                                                <ul>
-                                                    <li><a href="#"> € Euro</a></li>
-                                                    <li><a href="#"> $ US Dollar</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--USD Currency End-->
                                             <!--Account Currency Start-->
-                                            <li><a href="{% url 'my-account' %}">My account</a>
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                                 <ul>
-                                                    <li><a href="{% url 'login-register' %}">Login</a></li>
-                                                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                    <li><a href="{% url 'my-account' %}">My account</a></li>
-                                                    <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                                    {% if user.customer %}
+                                                    <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                                    <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                                    {% else %}
+                                                    <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'cart:mycart' %}">Корзина</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    {% with total_items=cart|length %}
-                                    <li class="mini-cart"><a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.get_total_price }} ({{ total_items }})</span></a>
-                                    {% endwith %}
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
-                                                {% for item in cart %}
+                                                {% for item in cart.cartproduct_set.all %}
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
                                                                 <a href="{{ product.get_absolute_url }}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
                                                             </div>
                                                             <div class="cart-content">
-                                                                <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
-                                                                <span class="product-quantity">{{ item.quantity}} ×</span>
-                                                                <span class="product-price">{{ product.price }} грн</span>
+                                                                <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ item.product.title }}</a></h5>
+                                                                <span class="product-quantity">{{ item.quantity }} ×</span>
+                                                                <span class="product-price">{{ item.rate }} грн</span>
                                                             </div>
                                                             <div class="cart-item-remove">
-                                                                <a title="Remove" href="{% url 'cart:cart_remove' product.id %}"><i class="fa fa-trash"></i></a>
+                                                                <a title="Remove" href="{% url 'cart:managecart' item.id %}?action=rmv"><i class="fa fa-trash"></i></a>
                                                             </div>
                                                         </li>
                                                     {% endwith %}
@@ -146,17 +112,15 @@
                                             </ul>
                                             <div class="cart-total">
                                                 <h5>Всього</h5>
-                                                {% for item in cart %}
-                                                    {% with product=item.product %}
-                                                        <h6>{{ product.title }}: <span class="float-right">{{ item.total_price }} грн</span></h6>
-                                                    {% endwith %}
+                                                {% for item in cart.cartproduct_set.all %}
+                                                        <h6>{{ item.product.title }}: <span class="float-right">{{ item.subtotal }} грн</span></h6>
                                                 {% endfor %}
                                                 <h4>Загальна вартість:</h4>
-                                                <h5><span class="float-right">{{ cart.get_total_price }} грн</span></h5>
+                                                <h5><span class="float-right">{{ cart.total }} грн</span></h5>
                                             </div>
                                             <div class="cart-btn">
-                                                <a href="{% url 'cart:cart_detail' %}">View Cart</a>
-                                                <a href="{% url 'checkout' %}">checkout</a>
+                                                <a href="{% url 'cart:mycart' %}">Перейти до корзини</a>
+                                                <a href="{% url 'order:checkout' %}">Замовити</a>
                                             </div>
                                         </div>
                                         <!--Mini Cart Dropdown End-->
@@ -192,7 +156,7 @@
                                                 <ul class="icon-list justify-content-end">
                                                     <li>
                                                         <div class="header-cart-icon">
-                                                            <a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i></a>
+                                                            <a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i></a>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -237,42 +201,38 @@
                     </div>
                     <nav class="offcanvas-navigation">
                         <ul>
-                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Home</a>
+                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Головна</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                 <ul class="submenu2">
-                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">About us</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">Загальна інформація</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'about' %}">About</a></li>
-                                            <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
+                                            <li><a href="{% url 'about' %}">Про нас</a></li>
+                                            <li><a href="{% url 'faq' %}">Часті запитання</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                            <li><a href="{% url 'compare' %}">Compare</a></li>
-                                            <li><a href="#">Product Details</a></li>
-                                            <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                            <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'my-account' %}">My Account</a></li>
-                                            <li><a href="{% url 'login-register' %}">Login Register</a></li>
+                                            {% if user.customer %}
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                            <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                            {% endif %}
                                         </ul>
                                     </li>
 
                                 </ul>
                             </li>
-                            <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                            <li class="menu-item-has-children"><a href="{% url 'blog:blog' %}">Blog</a>
-                                <ul class="submenu2">
-                                    <li><a href="{% url 'blog:blog' %}">Blog</a></li>
-                                </ul>
+                            <li class="menu-item-has-children"><a href="{% url 'blog:blog' %}">Блог</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'contact' %}">Contact</a>
+                            <li class="menu-item-has-children"><a href="{% url 'contact' %}">Контакти</a>
                             </li>
 
                         </ul>
@@ -281,25 +241,14 @@
                     <div class="offcanvas-settings">
                         <nav class="offcanvas-navigation">
                             <ul>
-                                <li class="menu-item-has-children"><a href="{% url 'my-account' %}">MY ACCOUNT </a>
+                                <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">АККАУНТ</a>
                                     <ul class="submenu2">
-                                        <li><a href="{% url 'login-register' %}">Login</a></li>
-                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                        <li><a href="{% url 'my-account' %}">My account</a></li>
-                                        <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)">€ Euro</a></li>
-                                        <li><a href="javascript:void(0)">$ US Dollar</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">LANGUAGE: EN-GB </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/en-gb.png" %} alt=""> English</a></li>
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/de-de.png" %} alt=""> Germany</a></li>
+                                        {% if user.customer %}
+                                        <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                        <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                        {% else %}
+                                        <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                             </ul>
@@ -352,16 +301,17 @@
 
 
         <!-- Page Banner Section Start -->
-        <div class="page-banner-section section bg-image" data-bg={% static "assets/images/bg/breadcrumb.png" %}>
+        {% for ban in banner %}
+        <div class="page-banner-section section bg-image" data-bg="{{ ban.photo.url }}">
             <div class="container">
                 <div class="row">
                     <div class="col">
 
                         <div class="page-banner text-left">
-                            <h2>Shopping Cart</h2>
+                            <h2>{{ ban.title }}</h2>
                             <ul class="page-breadcrumb">
-                                <li><a href="{% url 'home' %}">Home</a></li>
-                                <li>Shopping Cart</li>
+                                <li><a href="{% url 'home' %}">Головна</a></li>
+                                <li>{{ ban.title }}</li>
                             </ul>
                         </div>
 
@@ -369,6 +319,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
         <!-- Page Banner Section End -->
         <!--Cart section start-->
         <div class="cart-section section pt-90 pt-lg-70 pt-md-60 pt-sm-50 pt-xs-45  pb-70 pb-lg-50 pb-md-40 pb-sm-30 pb-xs-20">
@@ -390,91 +341,52 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in cart %}
+                                {% for item in cart.cartproduct_set.all %}
                                     {% with product=item.product %}
                                         <tr>
-                                            <td class="pro-thumbnail"><a href="{{ product.get_absolute_url }}"><img src={% static "assets/images/product/product-3.jpg" %} alt="Product"></a></td>
-                                            <td class="pro-title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></td>
-                                            <td class="pro-price"><span>{{ product.price }} грн</span></td>
+                                            <td class="pro-thumbnail"><a href="{{ product.get_absolute_url }}">
+                                                {% with img=item.product.photo.all %}
+                                                <img src="{{ img.photo.url }}" alt="Product">
+                                                {% endwith %}
+                                            </a></td>
+                                            <td class="pro-title"><a href="{{ product.get_absolute_url }}">{{ item.product.title }}</a></td>
+                                            <td class="pro-price"><span>{{ item.rate }} грн</span></td>
                                             <td class="pro-quantity">
-                                                <div class="pro-qty"><input type="number" value="{{ item.quantity}}"></div>
+                                                <a href="{% url 'cart:managecart' item.id %}?action=dcr" class="btn btn-primary" style="padding:6px 12px;"> - </a>
+                                                <span>{{ item.quantity }}</span>
+                                                <a href="{% url 'cart:managecart' item.id %}?action=inc" class="btn btn-primary" style="padding:6px 12px;"> + </a>
                                             </td>
-                                            <td class="pro-subtotal"><span>{{ item.total_price }} грн</span></td>
-                                            <td class="pro-remove"><a href="{% url 'cart:cart_remove' product.id %}"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="pro-subtotal"><span>{{ item.subtotal }} грн</span></td>
+                                            <td class="pro-remove"><a href="{% url 'cart:managecart' item.id %}?action=rmv"><i class="fa fa-trash-o"></i></a></td>
                                         </tr>
                                     {% endwith %}
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-
+                        <div class="row">
+                            {% if cart.cartproduct_set.all %}
+                            <button class="btn"><a href="{% url 'cart:emptycart' %}">Очистити корзину</a></button>
+                            {% endif %}
+                        </div>
                         <div class="row">
 
-                            <div class="col-lg-6 col-12 mb-5">
-                                <!-- Calculate Shipping -->
-                                <div class="calculate-shipping">
-                                    <h4>Calculate Shipping</h4>
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <select class="nice-select">
-                                                    <option>Bangladesh</option>
-                                                    <option>China</option>
-                                                    <option>country</option>
-                                                    <option>India</option>
-                                                    <option>Japan</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <select class="nice-select">
-                                                    <option>Dhaka</option>
-                                                    <option>Barisal</option>
-                                                    <option>Khulna</option>
-                                                    <option>Comilla</option>
-                                                    <option>Chittagong</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <input type="text" placeholder="Postcode / Zip">
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <button class="btn">Estimate</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- Discount Coupon -->
-                                <div class="discount-coupon">
-                                    <h4>Discount Coupon Code</h4>
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <input type="text" placeholder="Coupon Code">
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-25">
-                                                <button class="btn">Apply Code</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
                             <!-- Cart Summary -->
-                            <div class="col-lg-6 col-12 mb-30 d-flex">
+                            {% if cart.cartproduct_set.all %}
+                            <div class="col-12 mb-30 d-flex" style="flex: 0 0 100%; with:100%;">
                                 <div class="cart-summary">
                                     <div class="cart-summary-wrap">
                                         <h4>Вартість корзини</h4>
-                                        <p>Вартість товарів <span>{{ cart.get_total_price }} грн</span></p>
-                                        <p>Вартість доставки <span>$00.00</span></p>
+                                        <p>Вартість товарів <span>{{ cart.total }} грн</span></p>
+                                        <p>Вартість доставки <span>50 грн</span></p>
                                         <h2>Загальна вартість <span>$75.00</span></h2>
                                     </div>
                                     <div class="cart-summary-button">
-                                        <button class="btn">Checkout</button>
-                                        <button class="btn">Update Cart</button>
+                                        <button class="btn"><a href="{% url 'order:checkout' %}">Замовити</a></button>
                                     </div>
                                 </div>
                             </div>
-
+                            {% endif %}
                         </div>
 
                     </div>
@@ -489,16 +401,17 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="newsletter-content">
-                            <h2>Subscribe Our Newsletter</h2>
-                            <p>Subscribe Today for free and save 10% on your first purchase.</p>
+                            <h2>Підпишіться на нашу розсилку</h2>
+                            <p>Підпишіться сьогодні та заощадте 10% на першій покупці</p>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="newsletter-wrap">
                             <div class="newsletter-form">
-                                <form id="mc-form" class="mc-form">
-                                    <input type="email" placeholder="Enter Your Email Address Here..." required>
-                                    <button type="submit" value="submit">SUBSCRIBE!</button>
+                                <form action="" id="mc-form" method="post" class="mc-form">
+                                    {% csrf_token %}
+                                    {{ subscribe_form.email }}
+                                    <button type="submit" value="submit">ПІДПИСАТИСЬ!</button>
                                 </form>
 
                             </div>
@@ -525,46 +438,44 @@
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Opening Time</span></h4>
-                            <p class="mb-15">Mon – Fri: 8AM – 10PM</p>
-                            <p class="mb-15">Sat: 9AM-8PM</p>
-                            <p class="mb-15">Sun: Closed</p>
-                            <h4 class="opeaning-title">We Work All The Holidays</h4>
+                            <h4 class="title"><span class="text">Години роботи</span></h4>
+                            <p class="mb-15">Пон – Пт: 8.00 – 20.00</p>
+                            <p class="mb-15">Суб: 9.00-18.00</p>
+                            <p class="mb-15">Нд: Зачинено</p>
+                            <h4 class="opeaning-title">Ми працюємо в свята</h4>
                         </div>
                         <!--Footer Widget end-->
 
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Quick Link</span></h4>
+                            <h4 class="title"><span class="text">Швидкі посилання</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                <li><a href="#">Order Tracking</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Shipping Information</a></li>
+                                <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Information</span></h4>
+                            <h4 class="title"><span class="text">Загальна інформація</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'about' %}">About Us</a></li>
-                                <li><a href="#">Shopping Guide</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Store</a></li>
+                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Наш магазин</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget text-lg-right text-left col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h2>123 Widget Street Acmeville, AC-1209</h2>
-                            <p class="contact-text">hello@hasthemes.com</p>
-                            <p class="contact-text">+0123456789</p>
+                            <h2>Київ, вул. Князів Острозьких, 32</h2>
+                            <p class="contact-text">info@nelson.com</p>
+                            <p class="contact-text">+38(097)343-56-78</p>
                         </div>
                         <!--Footer Widget end-->
                     </div>

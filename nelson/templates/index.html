@@ -42,41 +42,22 @@
                             <div class="header-menu-area text-center">
                                 <nav class="main-menu">
                                     <ul>
-                                        <li><a href="{% url 'home' %}">Home</a>
+                                        <li><a href="{% url 'home' %}">Головна</a>
                                         </li>
-                                        <li><a href="{% url 'shop:shop' %}">Shop</a>
-                                            <ul class="mega-menu four-column left-0">
-                                                <li><a href="{% url 'about' %}" class="item-link">About us</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'about' %}">About</a></li>
-                                                        <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="{% url 'shop:shop' %}" class="item-link">Shop</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                                        <li><a href="{% url 'compare' %}">Compare</a></li>
-                                                        <li><a href="#">Product Details</a></li>
-                                                        <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="{% url 'my-account' %}" class="item-link">Account</a>
-                                                    <ul>
-                                                        <li><a href="{% url 'my-account' %}">My Account</a></li>
-                                                        <li><a href="{% url 'login-register' %}">Login Register</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="{% url 'shop:shop' %}">New Arrivals</a></li>
-                                        <li><a href="{% url 'blog:blog' %}">Blog</a>
+                                        <li><a href="{% url 'shop:shop' %}">Магазин</a>
                                             <ul class="sub-menu">
-                                                <li><a href="{% url 'blog:blog' %}">Blog</a></li>
+                                                <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                                        <li><a href="{% url 'about' %}">Загальна інформація</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                                <li><a href="{% url 'faq' %}">Часті запитання</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'blog:blog' %}">Блог</a></li>
+                                        <li><a href="{% url 'contact' %}">Контакти</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -90,43 +71,28 @@
                                     <li class="currency-menu"><a href="#"><i class="flaticon-user"></i></a>
                                         <!--Crunccy dropdown-->
                                         <ul class="currency-dropdown">
-                                            <!--Language Currency Start-->
-                                            <li><a href="#">language</a>
-                                                <ul>
-                                                    <li class="active"><a href="#"><img src={% static "./assets/images/icons/en-gb.png" %} alt="">English</a></li>
-                                                    <li><a href="#"><img src={% static "./assets/images/icons/de-de.png" %} alt="">French</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--Language Currency End-->
-                                            <!--USD Currency Start-->
-                                            <li><a href="#">Currency</a>
-                                                <ul>
-                                                    <li><a href="#"> € Euro</a></li>
-                                                    <li><a href="#"> $ US Dollar</a></li>
-                                                </ul>
-                                            </li>
-                                            <!--USD Currency End-->
                                             <!--Account Currency Start-->
-                                            <li><a href="{% url 'my-account' %}">My account</a>
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                                 <ul>
-                                                    <li><a href="{% url 'login-register' %}">Login</a></li>
-                                                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                                    <li><a href="{% url 'my-account' %}">My account</a></li>
-                                                    <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                                    {% if user.customer %}
+                                                    <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                                    <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                                    {% else %}
+                                                    <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{% url 'cart:mycart' %}">Корзина</a></li>
+                                                    <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                                 </ul>
                                             </li>
                                             <!--Account Currency End-->
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    {% with total_items=cart|length %}
-                                    <li class="mini-cart"><a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.get_total_price }} ({{ total_items }})</span></a>
-                                    {% endwith %}
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
-                                                {% for item in cart %}
+                                                {% for item in cart.cartproduct_set.all %}
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
@@ -135,10 +101,10 @@
                                                             <div class="cart-content">
                                                                 <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
                                                                 <span class="product-quantity">{{ item.quantity}} ×</span>
-                                                                <span class="product-price">{{ product.price }} грн</span>
+                                                                <span class="product-price">{{ item.rate }} грн</span>
                                                             </div>
                                                             <div class="cart-item-remove">
-                                                                <a title="Remove" href="{% url 'cart:cart_remove' product.id %}"><i class="fa fa-trash"></i></a>
+                                                                <a title="Remove" href="{% url 'cart:managecart' item.id %}?action=rmv"><i class="fa fa-trash"></i></a>
                                                             </div>
                                                         </li>
                                                     {% endwith %}
@@ -146,17 +112,15 @@
                                             </ul>
                                             <div class="cart-total">
                                                 <h5>Всього</h5>
-                                                {% for item in cart %}
-                                                    {% with product=item.product %}
-                                                        <h6>{{ product.title }}: <span class="float-right">{{ item.total_price }} грн</span></h6>
-                                                    {% endwith %}
+                                                {% for item in cart.cartproduct_set.all %}
+                                                        <h6>{{ item.product.title }}: <span class="float-right">{{ item.subtotal }} грн</span></h6>
                                                 {% endfor %}
                                                 <h4>Загальна вартість:</h4>
-                                                <h5><span class="float-right">{{ cart.get_total_price }} грн</span></h5>
+                                                <h5><span class="float-right">{{ cart.total }} грн</span></h5>
                                             </div>
                                             <div class="cart-btn">
-                                                <a href="{% url 'cart:cart_detail' %}">View Cart</a>
-                                                <a href="{% url 'checkout' %}">checkout</a>
+                                                <a href="{% url 'cart:mycart' %}">Перейти до корзини</a>
+                                                <a href="{% url 'order:checkout' %}">Замовити</a>
                                             </div>
                                         </div>
                                         <!--Mini Cart Dropdown End-->
@@ -192,7 +156,7 @@
                                                 <ul class="icon-list justify-content-end">
                                                     <li>
                                                         <div class="header-cart-icon">
-                                                            <a href="{% url 'cart:cart_detail' %}"><i class="flaticon-shopping-cart"></i></a>
+                                                            <a href="#"><i class="flaticon-shopping-cart"></i></a>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -237,29 +201,30 @@
                     </div>
                     <nav class="offcanvas-navigation">
                         <ul>
-                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Home</a>
+                            <li class="menu-item-has-children"><a href="{% url 'home' %}">Головна</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                            <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                 <ul class="submenu2">
-                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">About us</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'about' %}">Загальна інформація</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'about' %}">About</a></li>
-                                            <li><a href="{% url 'faq' %}">Frequently Questions</a></li>
+                                            <li><a href="{% url 'about' %}">Про нас</a></li>
+                                            <li><a href="{% url 'faq' %}">Часті запитання</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Shop</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-                                            <li><a href="{% url 'compare' %}">Compare</a></li>
-                                            <li><a href="{% url 'cart:cart_detail' %}">Shopping Cart</a></li>
-                                            <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
+                                            <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
+                                            <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><a href="{% url 'my-account' %}">Account</a>
+                                    <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">Аккаунт</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'my-account' %}">My Account</a></li>
-                                            <li><a href="{% url 'login-register' %}">Login Register</a></li>
+                                            {% if user.customer %}
+                                            <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                            <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                            {% endif %}
                                         </ul>
                                     </li>
 
@@ -280,25 +245,14 @@
                     <div class="offcanvas-settings">
                         <nav class="offcanvas-navigation">
                             <ul>
-                                <li class="menu-item-has-children"><a href="{% url 'my-account' %}">MY ACCOUNT </a>
+                                <li class="menu-item-has-children"><a href="{% url 'customerprofile:customerprofile' %}">АККАУНТ</a>
                                     <ul class="submenu2">
-                                        <li><a href="{% url 'login-register' %}">Login</a></li>
-                                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
-                                        <li><a href="{% url 'my-account' %}">My account</a></li>
-                                        <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                                        <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">CURRENCY: USD </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)">€ Euro</a></li>
-                                        <li><a href="javascript:void(0)">$ US Dollar</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">LANGUAGE: EN-GB </a>
-                                    <ul class="submenu2">
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/en-gb.png" %} alt=""> English</a></li>
-                                        <li><a href="javascript:void(0)"><img src={% static "./assets/images/icons/de-de.png" %} alt=""> Germany</a></li>
+                                        {% if user.customer %}
+                                        <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                        <li><a href="{% url 'customerprofile:logout' %}">Вийти з аккаунту</a></li>
+                                        {% else %}
+                                        <li><a href="{% url 'customerprofile:login' %}">Логін</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                             </ul>
@@ -366,7 +320,7 @@
                                 <div class="hero-content-2 center">
 
                                     <h2>{{ banner.title }}</h2>
-                                        <a href="{% url 'shop:shop' %}" class="btn">SHOP NOW</a>
+                                        <a href="{% url 'shop:shop' %}" class="btn">ПЕРЕЙТИ ДО МАГАЗИНУ</a>
 
                                 </div>
                                 <!--Hero Content end-->
@@ -400,7 +354,7 @@
                             </div>
                             <div class="banner-content">
                                 <h3 class="title">{{ furn.title | upper }}</h3>
-                                    <a href="{% url 'shop:shop' %}">SHOP NOW</a>
+                                    <a href="{% url 'shop:shop' %}">ПЕРЕЙТИ ДО МАГАЗИНУ</a>
                             </div>
                         </div>
                         <!-- Single Banner End -->
@@ -422,18 +376,13 @@
                         <div class="section-title text-center mb-15">
                             <h2>Popular Furniture</h2>
                         </div>
-                        <div class="product-tab mb-50 mb-sm-30 mb-xs-20">
-                            <ul class="nav">
-                                <li><a class="active show" data-toggle="tab" href="#home">HOME</a></li>
-                                <li><a data-toggle="tab" href="#office">OFFICE</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-content">
-                    <div id="home" class="tab-pane fade active show">
+                    <div class="tab-pane fade active show">
                         <div class="row">
                             {% for new in new_arrivals %}
+
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <!--  Single Grid product Start -->
                                 <div class="single-grid-product mb-40">
@@ -442,13 +391,17 @@
                                             <span>{{ new.sale }}%</span>
                                         </div>
                                         <a href="{{ new.get_absolute_url }}">
-                                            <img src={% static "./assets/images/product/product-1.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-2.jpg" %} class="img-fluid" alt="">
+                                            {% for item in new.photo.all %}
+                                            {% if forloop.first %}
+                                            <img src="{{ item.photo.url }}" class="img-fluid" alt="">
+                                            <img src="{{ item.photo.url }}" class="img-fluid" alt="">
+                                            {% endif %}
+                                            {% endfor %}
                                         </a>
 
                                         <div class="product-action">
                                             <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
+                                                <li><a href="{% url 'cart:addtocart' new.id %}"><i class="fa fa-cart-plus"></i></a></li>
                                                 <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
                                                 <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
                                             </ul>
@@ -463,213 +416,6 @@
                             </div>
                             {% endfor %}
 
-                        </div>
-                    </div>
-                    <div id="office" class="tab-pane">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-9.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-10.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Normal Dining chair</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$130.00</span> </p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <div class="product-label">
-                                            <span class="sale">Sale</span>
-                                        </div>
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-11.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-12.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Tripod lampshade</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$210.00</span> <span class="main-price discounted">$240.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-10.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-13.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Hot Design Table</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$250.00</span> <span class="main-price discounted">$280.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-14.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Outdoor Lock Chair</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$180.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <div class="product-label">
-                                            <span class="sale">New</span>
-                                        </div>
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-14.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-13.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Classic Chair</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$60.00</span> </p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-15.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-16.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}l"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Classic Chair Wodden</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$183.00</span> <span class="main-price discounted">$200.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-10.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Classic Table Wodden</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$290.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <!--  Single Grid product Start -->
-                                <div class="single-grid-product mb-40">
-                                    <div class="product-image">
-                                        <a href="#">
-                                            <img src={% static "./assets/images/product/product-16.jpg" %} class="img-fluid" alt="">
-                                            <img src={% static "./assets/images/product/product-2.jpg" %} class="img-fluid" alt="">
-                                        </a>
-
-                                        <div class="product-action">
-                                            <ul>
-                                                <li><a href="{% url 'cart:cart_detail' %}"><i class="fa fa-cart-plus"></i></a></li>
-                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="{% url 'wishlist:wishlist_detail' %}"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"> <a href="#">Miniature Almari</a></h3>
-                                        <p class="product-price"><span class="discounted-price">$230.00</span> <span class="main-price discounted">$250.00</span></p>
-                                    </div>
-                                </div>
-                                <!--  Single Grid product End -->
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -689,13 +435,13 @@
                         <!-- Single Banner Start -->
                         <div class="single-banner-item pt-100 pt-md-80 pt-sm-70 pt-xs-50 pb-120 pb-md-100 pb-sm-90 pb-xs-50 mb-30 bg-image" data-bg="{{ disc.photo.url }}">
                             <div class="sp-banner-content">
-                                <span class="normat-text">DISCOUNTED UP TO {{ disc.discount }}%</span>
+                                <span class="normat-text">ЗНИЖКА ДО {{ disc.discount }}%</span>
                                 <h2 class="title">{{ disc.title }}</h2>
-                                <span class="normat-text">LIMITED TIME OFEER</span>
+                                <span class="normat-text">ЛІМІТОВАНА ПРОПОЗИЦІЯ</span>
                                 <div class="countdown-area">
                                     <div class="product-countdown" data-countdown="{{ disc.date }}"></div>
                                 </div>
-                                <a href="{% url 'shop:shop' %}">SHOP NOW</a>
+                                <a href="{% url 'shop:shop' %}">ПЕРЕЙТИ ДО МАГАЗИНУ</a>
                             </div>
                         </div>
                         <!-- Single Banner End -->
@@ -742,8 +488,7 @@
                 <div class="row mb-50 mb-xs-20">
                     <div class="col">
                         <div class="section-title text-center">
-                            <h2>Latest Post From Blog</h2>
-                            <span>OUR BLOG POST</span>
+                            <h2>Останні новини блогу</h2>
                         </div>
                     </div>
                 </div>
@@ -758,11 +503,9 @@
                             <div class="content">
                                 <ul class="meta">
                                     <li>{{ post.data }}</li>
-                                    <li><a href="#">25 Likes</a></li>
-                                    <li><a href="#">28 Views</a></li>
                                 </ul>
                                 <h3 class="title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-                                <a class="read-more" href="{{ post.get_absolute_url }}">Read more</a>
+                                <a class="read-more" href="{{ post.get_absolute_url }}">Читати далі</a>
                             </div>
                         </div>
                     </div>
@@ -860,8 +603,8 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="newsletter-content">
-                            <h2>Subscribe Our Newsletter</h2>
-                            <p>Subscribe Today for free and save 10% on your first purchase.</p>
+                            <h2>Підпишіться на нашу розсилку</h2>
+                            <p>Підпишіться сьогодні та заощадте 10% на першій покупці</p>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -870,8 +613,7 @@
                                 <form action="" id="mc-form" method="post" class="mc-form">
                                     {% csrf_token %}
                                     {{ subscribe_form.email }}
-<!--                                    <input type="email" placeholder="Enter Your Email Address Here..." required>-->
-                                    <button type="submit" value="submit">SUBSCRIBE!</button>
+                                    <button type="submit" value="submit">ПІДПИСАТИСЬ!</button>
                                 </form>
 
                             </div>
@@ -898,48 +640,44 @@
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Opening Time</span></h4>
-                            <p class="mb-15">Mon – Fri: 8AM – 10PM</p>
-                            <p class="mb-15">Sat: 9AM-8PM</p>
-                            <p class="mb-15">Sun: Closed</p>
-                            <h4 class="opeaning-title">We Work All The Holidays</h4>
+                            <h4 class="title"><span class="text">Години роботи</span></h4>
+                            <p class="mb-15">Пон – Пт: 8.00 – 20.00</p>
+                            <p class="mb-15">Суб: 9.00-18.00</p>
+                            <p class="mb-15">Нд: Зачинено</p>
+                            <h4 class="opeaning-title">Ми працюємо в свята</h4>
                         </div>
                         <!--Footer Widget end-->
 
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Quick Link</span></h4>
+                            <h4 class="title"><span class="text">Швидкі посилання</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'my-account' %}">My account</a></li>
-                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Wishlist</a></li>
-                                <li><a href="#">Order Tracking</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Shipping Information</a></li>
+                                <li><a href="{% url 'customerprofile:customerprofile' %}">Мій аккаунт</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            <h4 class="title"><span class="text">Information</span></h4>
+                            <h4 class="title"><span class="text">Загальна інформація</span></h4>
                             <ul class="ft-menu">
-                                <li><a href="{% url 'about' %}">About Us</a></li>
-                                <li><a href="#">Shopping Guide</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Store</a></li>
+                                <li><a href="{% url 'about' %}">Про нас</a></li>
+                                <li><a href="#">Доставка та оплата</a></li>
+                                <li><a href="#">Політика приватності</a></li>
+                                <li><a href="#">Наш магазин</a></li>
                             </ul>
                         </div>
                         <!--Footer Widget end-->
 
                         <!--Footer Widget start-->
                         <div class="footer-widget text-lg-right text-left col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
-                            {% for contact in contact %}
-                            <h2>{{ contact.address }}</h2>
-                            <p class="contact-text">{{ contact.email }}</p>
-                            <p class="contact-text">{{ contact.phone }}</p>
-                            {% endfor %}
+                            <h2>Київ, вул. Князів Острозьких, 32</h2>
+                            <p class="contact-text">info@nelson.com</p>
+                            <p class="contact-text">+38(097)343-56-78</p>
                         </div>
                         <!--Footer Widget end-->
                     </div>
