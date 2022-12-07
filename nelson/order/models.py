@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from base.models import Product, Profile
-from django.db.models.signals import post_save, pre_save
+from base.models import Product
 from cart.models import Cart, CartProduct
 
 

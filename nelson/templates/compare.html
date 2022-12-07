@@ -88,7 +88,7 @@
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} </span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
@@ -96,7 +96,10 @@
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
-                                                                <a href="{{ product.get_absolute_url }}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
+                                                                <a href="{{ product.get_absolute_url }}">
+                                                                    {% for img in product.photo.all %}
+                                                                    {% if forloop.first %}<img src="{{ img.photo.url }}" alt="">{% endif %}
+                                                                    {% endfor %}</a>
                                                             </div>
                                                             <div class="cart-content">
                                                                 <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
@@ -290,15 +293,15 @@
                 <button class="search-close"><i class="fa fa-times"></i></button>
             </div>
             <div class="sidebar-search-input">
-                <form action="#">
+                <form action="{% url 'search' %}" method="GET">
                     <div class="form-search">
-                        <input id="search" class="input-text" value="" placeholder="" type="search">
+                        <input id="search" name="keyword" class="input-text" value="" placeholder="" type="search" required>
                         <button>
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </form>
-                <p class="form-description">Hit enter to search or ESC to close</p>
+                <p class="form-description">Натисни Enter для пошуку або ESC, щоб закрити</p>
             </div>
         </div>
         <!-- main-search start -->
@@ -339,7 +342,10 @@
                                             <td class="first-column">Товар</td>
                                             {% for item in compare %}
                                             <td class="product-image-title">
-                                                <a href="{{ item.get_absolute_url }}" class="image"><img src={% static "./assets/images/product/product-1.jpg" %} alt="Compare Product"></a>
+                                                <a href="{{ item.get_absolute_url }}" class="image">
+                                                    {% for img in item.photo.all %}
+                                                    {% if forloop.first %}<img src="{{ img.photo.url }}" alt="Compare Product">{% endif %}
+                                                    {% endfor %}</a>
                                                 <a href="#" class="category">Категорія: {{ item.category }}</a>
                                                 <a href="{{ item.get_absolute_url }}" class="title">{{ item.description_short }}</a>
                                             </td>
@@ -399,7 +405,7 @@
                     <div class="col-lg-6">
                         <div class="newsletter-wrap">
                             <div class="newsletter-form">
-                                <form action="" id="mc-form" method="post" class="mc-form">
+                                <form action=""  method="post" class="mc-form">
                                     {% csrf_token %}
                                     {{ subscribe_form.email }}
                                     <button type="submit" value="submit">ПІДПИСАТИСЬ!</button>

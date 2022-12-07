@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, View, CreateView, FormView, DetailView, ListView
+from django.views.generic import TemplateView, View, FormView, DetailView, ListView
 from django.urls import reverse_lazy
 from customerprofile.forms import CustomerLoginForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from .models import Manager
 from order.models import Order, ORDER_STATUS_CHOICES
 
@@ -65,7 +65,6 @@ class ManagerOdrerStatusChangeView(ManagerRequiredMixin, View):
         order_id = self.kwargs['pk']
         order_obj = Order.objects.get(id=order_id)
         new_status = request.POST.get('status')
-        print(new_status, '444444444444444')
         order_obj.status = new_status
         order_obj.save()
 

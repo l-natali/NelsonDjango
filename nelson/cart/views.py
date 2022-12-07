@@ -1,9 +1,7 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.decorators.http import require_GET, require_POST
 from base.models import Product, CartBanner
 from .models import Cart, CartProduct
-# from .cart import Cart
 from base.forms import SubscribeForm
 from django.views.generic import TemplateView, View
 
@@ -92,6 +90,10 @@ class MyCartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        subscribe = SubscribeForm()
+        context['subscribe_form'] = subscribe
+        banner = CartBanner.objects.all()
+        context['banner'] = banner
         cart_id = self.request.session.get('cart_id', None)
         if cart_id:
             cart = Cart.objects.get(id=cart_id)

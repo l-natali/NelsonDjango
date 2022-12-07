@@ -15,27 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from base.views import base, shop, faq, product_details, AboutView, SearchView
-from base.views import contact
+from base.views import AboutView, SearchView, BaseView, FaqView, ContactView
+from blog.views import SearchBlogView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', base),
-    path('home/', base, name='home'),
+    path('', BaseView.as_view()),
+    path('home/', BaseView.as_view(), name='home'),
     path('shop/', include('base.urls', namespace='shop')),
     path('about/', AboutView.as_view(), name='about'),
-    path('faq/', faq, name='faq'),
+    path('faq/', FaqView.as_view(), name='faq'),
     path('compare/', include('compare.urls', namespace='compare')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('order/', include('order.urls', namespace='order')),
     path('wishlist/', include('wishlist.urls', namespace='wishlist')),
     path('blog/', include('blog.urls', namespace='blog')),
-    path('contact/', contact, name='contact'),
+    path('contact/', ContactView.as_view(), name='contact'),
     path('profile/', include('customerprofile.urls', namespace='customerprofile')),
     path('manager/', include('manager.urls', namespace='manager')),
     path('search/', SearchView.as_view(), name='search'),
+    path('search-blog/', SearchBlogView.as_view(), name='searchblog')
 
 ]
 

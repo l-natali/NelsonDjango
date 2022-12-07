@@ -21,7 +21,7 @@ class Wishlist:
         """
         product_id = str(product.id)
         if product_id not in self.wishlist:
-            self.wishlist[product_id] = {'product': product.title, 'price': str(product.price), 'photo': product.photo, }
+            self.wishlist[product_id] = {'product': product.title, 'price': str(product.price), }
         self.save()
 
     def save(self):

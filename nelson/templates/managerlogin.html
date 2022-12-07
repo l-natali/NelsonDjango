@@ -88,7 +88,7 @@
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }}</span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
@@ -96,7 +96,10 @@
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
-                                                                <a href="{{ product.get_absolute_url }}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
+                                                                <a href="{{ product.get_absolute_url }}">
+                                                                    {% for img in product.photo.all %}
+                                                                    {% if forloop.first %}<img src="{{ img.photo.url }}" alt="">{% endif %}
+                                                                    {% endfor %}</a>
                                                             </div>
                                                             <div class="cart-content">
                                                                 <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
@@ -213,7 +216,6 @@
                                     </li>
                                     <li class="menu-item-has-children"><a href="{% url 'shop:shop' %}">Магазин</a>
                                         <ul class="submenu2">
-                                            <li><a href="{% url 'shop:shop' %}">Магазин</a></li>
                                             <li><a href="{% url 'compare:compare_detail' %}">Порівняти товар</a></li>
                                             <li><a href="{% url 'wishlist:wishlist_detail' %}">Список бажань</a></li>
                                         </ul>
@@ -347,9 +349,6 @@
                                     {% if error %}
                                     <li style="color: red;">{{ error }}</li>
                                     {% endif %}
-                                    <div class="lost-password">
-                                        <a href="#">Забув пароль?</a>
-                                    </div>
                                 </form>
                             </div>
                         </div>

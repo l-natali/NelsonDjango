@@ -25,7 +25,7 @@ class Blog(models.Model):
         index_together = (('id', 'slug'), )
 
     def get_absolute_url(self):
-        return reverse("blog:posts", args=[self.id, self.slug])
+        return reverse("blog:posts", args=[self.slug])
 
 
 class BlogBanner(models.Model):

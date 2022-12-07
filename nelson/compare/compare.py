@@ -11,7 +11,7 @@ class Compare:
         self.session = request.session
         compare = self.session.get(settings.COMPARE_SESSION_ID)
         if not compare:
-            # save an empty wishlist in the session
+            # save an empty compare in the session
             compare = self.session[settings.COMPARE_SESSION_ID] = {}
         self.compare = compare
 

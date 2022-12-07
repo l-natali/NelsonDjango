@@ -88,7 +88,7 @@
                                         </ul>
                                         <!--Crunccy dropdown-->
                                     </li>
-                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }} ({{ total_items }})</span></a>
+                                    <li class="mini-cart"><a href="{% url 'cart:mycart' %}"><i class="flaticon-shopping-cart"></i> <span class="mini-cart-total">&#8372; {{ cart.total }}</span></a>
                                         <!--Mini Cart Dropdown Start-->
                                         <div class="header-cart">
                                             <ul class="cart-items">
@@ -96,7 +96,10 @@
                                                     {% with product=item.product %}
                                                         <li class="single-cart-item">
                                                             <div class="cart-img">
-                                                                <a href="{{ product.get_absolute_url }}"><img src={% static "./assets/images/cart/cart1.jpg" %} alt=""></a>
+                                                                <a href="{{ product.get_absolute_url }}">
+                                                                    {% for img in product.photo.all %}
+                                                                    {% if forloop.first %}<img src="{{ img.photo.url }}" alt="">{% endif %}
+                                                                    {% endfor %}</a>
                                                             </div>
                                                             <div class="cart-content">
                                                                 <h5 class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
@@ -329,10 +332,10 @@
                     <div class="col-lg-3 order-lg-1 order-2">
                         <!-- Single Sidebar Start  -->
                         <div class="common-sidebar-widget">
-                            <h3 class="sidebar-title">Search</h3>
+                            <h3 class="sidebar-title">Пошук</h3>
                             <div class="sidebar-search">
-                                <form action="#">
-                                    <input type="text" placeholder="Search">
+                                <form action="{% url 'searchblog' %}" method="GET">
+                                    <input class="input-text" type="search" name="keyword" placeholder="Search" required>
                                     <button><i class="fa fa-search"></i></button>
                                 </form>
                             </div>
@@ -391,20 +394,13 @@
                     <div class="col-lg-6">
                         <div class="newsletter-wrap">
                             <div class="newsletter-form">
-                                <form action="" id="mc-form" method="post" class="mc-form">
+                                <form action=""  method="post" class="mc-form">
                                     {% csrf_token %}
                                     {{ subscribe_form.email }}
                                     <button type="submit" value="submit">ПІДПИСАТИСЬ!</button>
                                 </form>
 
                             </div>
-                            <!-- mailchimp-alerts Start -->
-                            <div class="mailchimp-alerts">
-                                <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                                <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                                <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                            </div>
-                            <!-- mailchimp-alerts end -->
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CheckoutForm
+from base.views import SubscribeForm
 from cart.models import Cart, CartProduct
-from django.views.generic import TemplateView, View, CreateView
-from customerprofile.models import Customer
+from django.views.generic import CreateView
+from base.models import CartBanner
 
 
 class NelsonMixin(object):
@@ -35,6 +35,10 @@ class CheckoutView(NelsonMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        subscribe = SubscribeForm()
+        context['subscribe_form'] = subscribe
+        banner = CartBanner.objects.all()
+        context['banner'] = banner
         cart_id = self.request.session.get('cart_id', None)
         if cart_id:
             cart_obj = Cart.objects.get(id=cart_id)

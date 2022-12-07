@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET
 from .compare import Compare
 from base.models import Product, CompareBanner
@@ -22,8 +22,14 @@ def compare_remove(request, product_id):
 
 
 def compare_detail(request):
+
+    if request.method == 'POST':
+        subscribe = SubscribeForm(request.POST)
+        if subscribe.is_valid():
+            subscribe.save()
+            return redirect('/')
+
     compare = Compare(request)
-    cart = Cart(request)
     compare_banner = CompareBanner.objects.all()
     subscribe = SubscribeForm()
     cart_id = request.session.get('cart_id', None)

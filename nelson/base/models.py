@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator
 import uuid
 import os.path
 from django.urls import reverse
-from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -26,7 +25,6 @@ class ProductPhoto(models.Model):
         new_filename = f'{uuid.uuid4()}.{ext_file}'
         return os.path.join('product_photo/', new_filename)
 
-    # product = models.ForeignKey(Product, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=get_file_name)
     description = models.CharField(max_length=20, blank=True)
     position = models.SmallIntegerField(default=1)
@@ -191,11 +189,9 @@ class Subscribe(models.Model):
 
 class WriteUs(models.Model):
 
-    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
-    email = models.CharField(max_length=50, validators=[email_re])
+    email = models.EmailField(max_length=50)
     name = models.CharField(max_length=50)
     message = models.CharField(max_length=500)
-    notabot = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
     is_processed = models.BooleanField(default=False)
 
@@ -301,26 +297,6 @@ class ShopBanner(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-
-
-class Profile(models.Model):
-
-    mobile_re = RegexValidator(regex=r'^(\d{3}[- ]?){2}\d{4}$', message='Phone in format xxx xxx xxxx')
-    email_re = RegexValidator(regex=r'^[^-_][a-zA-Z0-9_-]+@\w+\.\w+$', message='Email in format xxxxxx@xx.xx')
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    first_name = models.TextField(max_length=20)
-    last_name = models.TextField(max_length=20)
-    email = models.CharField(max_length=50, validators=[email_re])
-
-    phone = models.CharField(max_length=15, validators=[mobile_re], blank=True)
-    address = models.CharField(max_length=200, blank=True)
-    # country = models.CharField(max_length=30, choices=COUNTRIES, default=False)
-    city = models.CharField(max_length=30, blank=True)
-    state = models.CharField(max_length=50, blank=True)
-    zip_code = models.PositiveIntegerField(max_length=10, blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.user}, {self.first_name} {self.last_name}'
 
 
 class ProductDetailBanner(models.Model):

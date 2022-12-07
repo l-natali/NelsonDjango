@@ -81,7 +81,7 @@
                         {% for item in ord_obj.cart.cartproduct_set.all %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td><a target="_blank" href="{{ item.get_absolute_url }}">{{ item.product.title }}({{ item.product.id }})</a></td>
+                            <td><a target="_blank" href="{% url 'shop:products' item.product.slug %}">{{ item.product.title }}({{ item.product.id }})</a></td>
                             <td>{{ item.rate }} грн</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.subtotal }} грн</td>
